@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Белоконь](https://up.htmlacademy.ru/javascript/21/user/17826).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Палян] (https://htmlacademy.ru/profile/id1231107).
 
 ---
 
