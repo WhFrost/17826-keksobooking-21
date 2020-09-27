@@ -81,18 +81,18 @@ let offersList = getOffersList();
 
 MAP.classList.remove(`map--faded`);
 
-let renderPin = function (i) {
+let renderPin = function (obj) {
   let pin = PIN_TEMPLATE.cloneNode(true);
   MAP_PIN.appendChild(pin);
-  pin.style.left = offersList[i].location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
-  pin.style.top = offersList[i].location.y + PIN_TEMPLATE.offsetHeight + `px`;
-  pin.querySelector(`img`).src = offersList[i].author.avatar;
-  pin.querySelector(`img`).alt = offersList[i].offer.title;
+  pin.style.left = obj.location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
+  pin.style.top = obj.location.y + PIN_TEMPLATE.offsetHeight + `px`;
+  pin.querySelector(`img`).src = obj.author.avatar;
+  pin.querySelector(`img`).alt = obj.offer.title;
 };
 
 let renderPins = function () {
   for (let i = 0; i < OFFER_COUNT; i++) {
-    renderPin(i);
+    renderPin(offersList[i]);
   }
 };
 renderPins();
