@@ -13,6 +13,7 @@ const OFFER_PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 const LOCATION_X = document.querySelector(`.map`).offsetWidth;
+const LOCATION_Y = 630;
 const MAP = document.querySelector(`.map`);
 const MAP_PIN = document.querySelector(`.map__pins`);
 const PIN_TEMPLATE = document.querySelector(`#pin`)
@@ -27,8 +28,8 @@ let getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-let getRandomId = function (arr) {
-  return arr.splice((Math.floor(Math.random() * arr.length)), 1);
+let getNextRandomUserId = function () {
+  return USERS_ID.splice((Math.floor(Math.random() * USERS_ID.length)), 1);
 };
 
 let getRandomArr = function (arr) {
@@ -41,9 +42,9 @@ let getRandomArr = function (arr) {
 };
 
 let getRandomOffer = function () {
-  let userId = getRandomId(USERS_ID);
+  let userId = getNextRandomUserId();
   let locationX = getRandom(0, LOCATION_X);
-  let locationY = getRandom(0, 630);
+  let locationY = getRandom(0, LOCATION_Y);
   return {
     author: {
       avatar: `img/avatars/user0` + userId + `.png`
@@ -80,14 +81,18 @@ let offersList = getOffersList();
 
 MAP.classList.remove(`map--faded`);
 
+let renderPin = function () {
+  let pin = PIN_TEMPLATE.cloneNode(true);
+  MAP_PIN.appendChild(pin);
+};
+
 let renderPins = function () {
   for (let i = 0; i < OFFER_COUNT; i++) {
-    let pins = PIN_TEMPLATE.cloneNode(true);
-    MAP_PIN.appendChild(pins);
-    pins.style.left = offersList[i].location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
-    pins.style.top = offersList[i].location.y + PIN_TEMPLATE.offsetHeight + `px`;
-    pins.querySelector(`img`).src = offersList[i].author.avatar;
-    pins.querySelector(`img`).alt = offersList[i].offer.title;
+    renderPin();
+    PIN_TEMPLATE.style.left = offersList[i].location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
+    PIN_TEMPLATE.style.top = offersList[i].location.y + PIN_TEMPLATE.offsetHeight + `px`;
+    PIN_TEMPLATE.querySelector(`img`).src = offersList[i].author.avatar;
+    PIN_TEMPLATE.querySelector(`img`).alt = offersList[i].offer.title;
   }
 };
 renderPins();
