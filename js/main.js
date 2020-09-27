@@ -41,12 +41,12 @@ let getRandomArr = function (arr) {
 };
 
 let getRandomOffer = function () {
-  let userId = getRandomElement(USERS_ID);
+  let userId = getRandomId(USERS_ID);
   let locationX = getRandom(0, LOCATION_X);
   let locationY = getRandom(0, 630);
   return {
     author: {
-      avatar: `img/avatars/user0` + getRandomId(USERS_ID) + `.png`
+      avatar: `img/avatars/user0` + userId + `.png`
     },
     offer: {
       title: `Объявление №` + userId,
