@@ -34,9 +34,7 @@ const FORM = document.querySelector(`.ad-form`);
 const FORM_FIELDSET = FORM.querySelectorAll(`fieldset`);
 const FORM_FIELD_ADDRESS = FORM.querySelector(`#address`);
 const FORM_FIELD_ROOMS = FORM.querySelector(`#room_number`);
-// const FORM_FIELD_ROOMS_VALUE = FORM_FIELD_ROOMS.querySelectorAll(`option`);
 const FORM_FIELD_GUESTS = FORM.querySelector(`#capacity`);
-// const FORM_FIELD_GUESTS_VALUE = FORM_FIELD_GUESTS.querySelectorAll(`option`);
 
 const getRandom = function (min, max) {
   return min + Math.floor(Math.random() * (max + 1 - min));
@@ -236,7 +234,6 @@ const renderPins = function () {
 
 // renderCard(offersList[0]);
 
-//
 const disablePage = function () {
   MAP.classList.add(`map--faded`);
   FORM.classList.add(`ad-form--disabled`);
@@ -262,9 +259,6 @@ const activatePage = function () {
     FORM_FIELDSET[i].removeAttribute(`disabled`, true);
   }
 };
-const onMainPinClick = function () {
-  activatePage();
-};
 
 MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
   if (evt.which === 1) {
@@ -276,24 +270,6 @@ MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
     onMainPinClick();
   }
 });
-
-// const validatesRoomAndGuest = function () {
-//   if (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) {
-//     FORM_FIELD_ROOMS.setCustomValidity(`Требуется больше комнат`);
-//   } else if (Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) {
-//     FORM_FIELD_GUESTS.setCustomValidity(`Слишком много гостей для кол-ва выбранных комнат`);
-//   } else {
-//     FORM_FIELD_GUESTS.setCustomValidity(``);
-//     FORM_FIELD_ROOMS.setCustomValidity(``);
-//   }
-// };
-
-// FORM_FIELD_ROOMS.addEventListener(`input`, function () {
-//   validatesRoomAndGuest();
-// });
-// FORM_FIELD_GUESTS.addEventListener(`input`, function () {
-//   validatesRoomAndGuest();
-// });
 
 const validatesRoomAndGuest = function () {
   if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100)) {
@@ -308,3 +284,12 @@ FORM_FIELD_GUESTS.addEventListener(`input`, function () {
 FORM_FIELD_ROOMS.addEventListener(`input`, function () {
   validatesRoomAndGuest();
 });
+
+const validatesForm = function () {
+  validatesRoomAndGuest();
+};
+
+const onMainPinClick = function () {
+  activatePage();
+  validatesForm();
+};
