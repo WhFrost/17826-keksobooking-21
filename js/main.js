@@ -265,7 +265,7 @@ const activatePage = function () {
 const onMainPinClick = function () {
   activatePage();
 };
-activatePage();
+
 MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
   if (evt.which === 1) {
     onMainPinClick();
