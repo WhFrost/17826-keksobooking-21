@@ -265,7 +265,7 @@ const activatePage = function () {
 const onMainPinClick = function () {
   activatePage();
 };
-
+activatePage();
 MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
   if (evt.which === 1) {
     onMainPinClick();
@@ -277,20 +277,34 @@ MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
   }
 });
 
+// const validatesRoomAndGuest = function () {
+//   if (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) {
+//     FORM_FIELD_ROOMS.setCustomValidity(`Требуется больше комнат`);
+//   } else if (Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) {
+//     FORM_FIELD_GUESTS.setCustomValidity(`Слишком много гостей для кол-ва выбранных комнат`);
+//   } else {
+//     FORM_FIELD_GUESTS.setCustomValidity(``);
+//     FORM_FIELD_ROOMS.setCustomValidity(``);
+//   }
+// };
+
+// FORM_FIELD_ROOMS.addEventListener(`input`, function () {
+//   validatesRoomAndGuest();
+// });
+// FORM_FIELD_GUESTS.addEventListener(`input`, function () {
+//   validatesRoomAndGuest();
+// });
+
 const validatesRoomAndGuest = function () {
-  if (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) {
-    FORM_FIELD_ROOMS.setCustomValidity(`Требуется больше комнат`);
-  } else if (Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) {
-    FORM_FIELD_GUESTS.setCustomValidity(`Слишком много гостей для кол-ва выбранных комнат`);
+  if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100)) {
+    FORM_FIELD_ROOMS.setCustomValidity(`Выберите больше комнат`);
   } else {
-    FORM_FIELD_GUESTS.setCustomValidity(``);
     FORM_FIELD_ROOMS.setCustomValidity(``);
   }
 };
-
-FORM_FIELD_ROOMS.addEventListener(`input`, function () {
+FORM_FIELD_GUESTS.addEventListener(`input`, function () {
   validatesRoomAndGuest();
 });
-FORM_FIELD_GUESTS.addEventListener(`input`, function () {
+FORM_FIELD_ROOMS.addEventListener(`input`, function () {
   validatesRoomAndGuest();
 });
