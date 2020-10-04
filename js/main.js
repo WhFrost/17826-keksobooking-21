@@ -291,5 +291,8 @@ const validatesForm = function () {
 
 const onMainPinClick = function () {
   activatePage();
-  validatesForm();
 };
+
+FORM.addEventListener(`submit`, function () {
+  validatesForm();
+});
