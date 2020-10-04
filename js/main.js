@@ -271,8 +271,12 @@ MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
   }
 });
 
+const onMainPinClick = function () {
+  activatePage();
+};
+
 const validatesRoomAndGuest = function () {
-  if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100)) {
+  if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) || (Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_ROOMS.value) === 100)) {
     FORM_FIELD_ROOMS.setCustomValidity(`Выберите больше комнат`);
   } else {
     FORM_FIELD_ROOMS.setCustomValidity(``);
@@ -287,10 +291,6 @@ FORM_FIELD_ROOMS.addEventListener(`input`, function () {
 
 const validatesForm = function () {
   validatesRoomAndGuest();
-};
-
-const onMainPinClick = function () {
-  activatePage();
 };
 
 FORM.addEventListener(`submit`, function () {
