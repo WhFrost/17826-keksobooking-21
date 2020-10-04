@@ -277,9 +277,11 @@ const onMainPinClick = function () {
 
 const validatesRoomAndGuest = function () {
   if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) || (Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_ROOMS.value) === 100)) {
-    FORM_FIELD_ROOMS.setCustomValidity(`Выберите больше комнат`);
+    FORM_FIELD_GUESTS.setCustomValidity(`Проверьте правильность заполнения формы!`);
+    return false;
   } else {
-    FORM_FIELD_ROOMS.setCustomValidity(``);
+    FORM_FIELD_GUESTS.setCustomValidity(``);
+    return true;
   }
 };
 FORM_FIELD_GUESTS.addEventListener(`input`, function () {
@@ -293,6 +295,10 @@ const validatesForm = function () {
   validatesRoomAndGuest();
 };
 
-FORM.addEventListener(`submit`, function () {
-  validatesForm();
+FORM.addEventListener(`submit`, function (evt) {
+  if (validatesForm() === false) {
+    evt.preventDefault();
+  } else {
+    validatesForm();
+  }
 });
