@@ -271,7 +271,7 @@ const activatePage = function () {
     MAP_FILTERS[i].removeAttribute(`disabled`, true);
   }
   for (let i = 0; i < FORM_FIELDSET.length; i++) {
-    FORM_FIELDSET[i].removeAttribute(`disabled`, true);
+    FORM_FIELDSET[i].removeAttribute(`disabled`);
   }
 };
 
@@ -326,27 +326,25 @@ FORM_FIELD_TYPE.addEventListener(`change`, function () {
 });
 
 // Валидация времени заезда и выезда
-const validateTime = function () {
-  for (let i = 0; i < FORM_FIELD_TIME_IN.length; i++) {
-    if (FORM_FIELD_TIME_IN.value[i] === FORM_FIELD_TIME_OUT.value) {
-      FORM_FIELD_TIME_IN[i].setAttribute(`selected`, true);
-    } else {
-      FORM_FIELD_TIME_IN[i].removeAttribute(`selected`, false);
-    }
+const validateTimeIn = function () {
+  let timeOutOptions = FORM_FIELD_TIME_OUT.querySelectorAll(`option`);
+  for (let i = 0; i < timeOutOptions.length; i++) {
+    timeOutOptions[i].removeAttribute(`selected`);
   }
-  for (let i = 0; i < FORM_FIELD_TIME_OUT.length; i++) {
-    if (FORM_FIELD_TIME_OUT.value[i] === FORM_FIELD_TIME_IN.value) {
-      FORM_FIELD_TIME_OUT[i].setAttribute(`selected`, true);
-    } else {
-      FORM_FIELD_TIME_OUT[i].removeAttribute(`selected`, false);
-    }
+  timeOutOptions[FORM_FIELD_TIME_IN.selectedIndex].setAttribute(`selected`, true);
+};
+const validateTimeOut = function () {
+  let timeInOptions = FORM_FIELD_TIME_IN.querySelectorAll(`option`);
+  for (let i = 0; i < timeInOptions.length; i++) {
+    timeInOptions[i].removeAttribute(`selected`);
   }
+  timeInOptions[FORM_FIELD_TIME_OUT.selectedIndex].setAttribute(`selected`, true);
 };
 FORM_FIELD_TIME_IN.addEventListener(`change`, function () {
-  validateTime();
+  validateTimeIn();
 });
 FORM_FIELD_TIME_OUT.addEventListener(`change`, function () {
-  validateTime();
+  validateTimeOut();
 });
 
 // Валидация кол-ва гостей и комнат
