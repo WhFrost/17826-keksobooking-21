@@ -32,7 +32,21 @@ const PIN_TEMPLATE = document.querySelector(`#pin`)
 // .querySelector(`.popup`);
 const FORM = document.querySelector(`.ad-form`);
 const FORM_FIELDSET = FORM.querySelectorAll(`fieldset`);
+const FORM_FIELD_TITLE = FORM.querySelector(`#title`);
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
 const FORM_FIELD_ADDRESS = FORM.querySelector(`#address`);
+const FORM_FIELD_TYPE = FORM.querySelector(`#type`);
+const FORM_FIELD_PRICE = FORM.querySelector(`#price`);
+const MAX_PRICE = 1000000;
+const TYPE_PRICE = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+const FORM_FIELD_TIME_IN = FORM.querySelector(`#timein`);
+const FORM_FIELD_TIME_OUT = FORM.querySelector(`#timeout`);
 const FORM_FIELD_ROOMS = FORM.querySelector(`#room_number`);
 const FORM_FIELD_GUESTS = FORM.querySelector(`#capacity`);
 
@@ -251,6 +265,7 @@ const activatePage = function () {
   MAP.classList.remove(`map--faded`);
   FORM.classList.remove(`ad-form--disabled`);
   FORM_FIELD_ADDRESS.value = MAIN_PIN_X + `, ` + (MAIN_PIN_Y + MAIN_PIN_OFFSET_Y);
+  FORM_FIELD_ADDRESS.setAttribute(`readonly`, true);
   renderPins();
   for (let i = 0; i < MAP_FILTERS.length; i++) {
     MAP_FILTERS[i].removeAttribute(`disabled`, true);
@@ -274,31 +289,90 @@ MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
 const onMainPinClick = function () {
   activatePage();
 };
+// Валидация заголовка
+const validateTitle = function () {
+  let titleLength = FORM_FIELD_TITLE.value.length;
+  if (titleLength === 0) {
+    FORM_FIELD_TITLE.setCustomValidity(`Обязательное поле`);
+  } else if (titleLength < MIN_TITLE_LENGTH) {
+    FORM_FIELD_TITLE.setCustomValidity(`Ещё ` + (MIN_TITLE_LENGTH - titleLength) + ` симв.`);
+  } else if (titleLength > MAX_TITLE_LENGTH) {
+    FORM_FIELD_TITLE.setCustomValidity(`Удалите лишние ` + (titleLength - MAX_TITLE_LENGTH) + ` симв.`);
+  } else {
+    FORM_FIELD_TITLE.setCustomValidity(``);
+  }
+};
+FORM_FIELD_TITLE.addEventListener(`input`, function () {
+  validateTitle();
+});
 
+// Валидация цены за ночь
+const validateMaxPrice = function () {
+  if (FORM_FIELD_PRICE.value > MAX_PRICE) {
+    FORM_FIELD_PRICE.setCustomValidity(`Слишком большая стоимость`);
+  } else {
+    FORM_FIELD_PRICE.setCustomValidity(``);
+  }
+};
+const validatePriceOfType = function () {
+  FORM_FIELD_PRICE.placeholder = TYPE_PRICE[FORM_FIELD_TYPE.value];
+  FORM_FIELD_PRICE.setAttribute(`min`, TYPE_PRICE[FORM_FIELD_TYPE.value]);
+};
+FORM_FIELD_PRICE.addEventListener(`input`, function () {
+  validateMaxPrice();
+});
+FORM_FIELD_TYPE.addEventListener(`change`, function () {
+  validatePriceOfType();
+});
+
+// Валидация времени заезда и выезда
+const validateTime = function () {
+  for (let i = 0; i < FORM_FIELD_TIME_IN.length; i++) {
+    if (FORM_FIELD_TIME_IN.value[i] === FORM_FIELD_TIME_OUT.value) {
+      FORM_FIELD_TIME_IN[i].setAttribute(`selected`, true);
+    } else {
+      FORM_FIELD_TIME_IN[i].removeAttribute(`selected`, false);
+    }
+  }
+  for (let i = 0; i < FORM_FIELD_TIME_OUT.length; i++) {
+    if (FORM_FIELD_TIME_OUT.value[i] === FORM_FIELD_TIME_IN.value) {
+      FORM_FIELD_TIME_OUT[i].setAttribute(`selected`, true);
+    } else {
+      FORM_FIELD_TIME_OUT[i].removeAttribute(`selected`, false);
+    }
+  }
+};
+FORM_FIELD_TIME_IN.addEventListener(`change`, function () {
+  validateTime();
+});
+FORM_FIELD_TIME_OUT.addEventListener(`change`, function () {
+  validateTime();
+});
+
+// Валидация кол-ва гостей и комнат
 const validatesRoomAndGuest = function () {
   if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) || (Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_ROOMS.value) === 100)) {
     FORM_FIELD_GUESTS.setCustomValidity(`Проверьте правильность заполнения формы!`);
-    return false;
   } else {
     FORM_FIELD_GUESTS.setCustomValidity(``);
-    return true;
   }
+  return FORM_FIELD_GUESTS.reportValidity();
 };
-FORM_FIELD_GUESTS.addEventListener(`input`, function () {
+FORM_FIELD_GUESTS.addEventListener(`change`, function () {
   validatesRoomAndGuest();
 });
-FORM_FIELD_ROOMS.addEventListener(`input`, function () {
+FORM_FIELD_ROOMS.addEventListener(`change`, function () {
   validatesRoomAndGuest();
 });
+// const validatesForm = function () {
+//   validateTitle();
+//   validatesRoomAndGuest();
+// };
 
-const validatesForm = function () {
-  validatesRoomAndGuest();
-};
-
-FORM.addEventListener(`submit`, function (evt) {
-  if (validatesForm() === false) {
-    evt.preventDefault();
-  } else {
-    validatesForm();
-  }
-});
+// FORM.addEventListener(`submit`, function (evt) {
+//   if (validatesForm() === false) {
+//     evt.preventDefault();
+//   } else {
+//     validatesForm();
+//   }
+// });
