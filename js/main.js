@@ -286,9 +286,6 @@ MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
   }
 });
 
-const onMainPinClick = function () {
-  activatePage();
-};
 // Валидация заголовка
 const validateTitle = function () {
   let titleLength = FORM_FIELD_TITLE.value.length;
@@ -302,9 +299,6 @@ const validateTitle = function () {
     FORM_FIELD_TITLE.setCustomValidity(``);
   }
 };
-FORM_FIELD_TITLE.addEventListener(`input`, function () {
-  validateTitle();
-});
 
 // Валидация цены за ночь
 const validateMaxPrice = function () {
@@ -318,12 +312,6 @@ const validatePriceOfType = function () {
   FORM_FIELD_PRICE.placeholder = TYPE_PRICE[FORM_FIELD_TYPE.value];
   FORM_FIELD_PRICE.setAttribute(`min`, TYPE_PRICE[FORM_FIELD_TYPE.value]);
 };
-FORM_FIELD_PRICE.addEventListener(`input`, function () {
-  validateMaxPrice();
-});
-FORM_FIELD_TYPE.addEventListener(`change`, function () {
-  validatePriceOfType();
-});
 
 // Валидация времени заезда и выезда
 const validateTimeIn = function () {
@@ -340,37 +328,48 @@ const validateTimeOut = function () {
   }
   timeInOptions[FORM_FIELD_TIME_OUT.selectedIndex].setAttribute(`selected`, true);
 };
-FORM_FIELD_TIME_IN.addEventListener(`change`, function () {
-  validateTimeIn();
-});
-FORM_FIELD_TIME_OUT.addEventListener(`change`, function () {
-  validateTimeOut();
-});
 
 // Валидация кол-ва гостей и комнат
 const validatesRoomAndGuest = function () {
-  if ((Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_GUESTS.value) > Number(FORM_FIELD_ROOMS.value)) || (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) || (Number(FORM_FIELD_GUESTS.value) !== 0 && Number(FORM_FIELD_ROOMS.value) === 100)) {
-    FORM_FIELD_GUESTS.setCustomValidity(`Проверьте правильность заполнения формы!`);
+  if (Number(FORM_FIELD_ROOMS.value) === 100 && Number(FORM_FIELD_GUESTS.value) !== 0) {
+    FORM_FIELD_GUESTS.setCustomValidity(`Выбрано помещение не для гостей. Пожалуйста, измените свой выбор`);
+  } else if (Number(FORM_FIELD_GUESTS.value) === 0 && Number(FORM_FIELD_ROOMS.value) !== 100) {
+    FORM_FIELD_ROOMS.setCustomValidity(`Выбрано помещение не для гостей. Пожалуйста, выберите максимальное кол-во комнат`);
+  } else if (Number(FORM_FIELD_ROOMS.value) < Number(FORM_FIELD_GUESTS.value)) {
+    FORM_FIELD_ROOMS.setCustomValidity(`Слишком много гостей для этого помещения. Пожалуйста, выберите больше комнат`);
   } else {
+    FORM_FIELD_ROOMS.setCustomValidity(``);
     FORM_FIELD_GUESTS.setCustomValidity(``);
   }
-  return FORM_FIELD_GUESTS.reportValidity();
 };
-FORM_FIELD_GUESTS.addEventListener(`change`, function () {
-  validatesRoomAndGuest();
-});
-FORM_FIELD_ROOMS.addEventListener(`change`, function () {
-  validatesRoomAndGuest();
-});
-// const validatesForm = function () {
-//   validateTitle();
-//   validatesRoomAndGuest();
-// };
 
-// FORM.addEventListener(`submit`, function (evt) {
-//   if (validatesForm() === false) {
-//     evt.preventDefault();
-//   } else {
-//     validatesForm();
-//   }
-// });
+const validatesForm = function () {
+  FORM_FIELD_TITLE.addEventListener(`input`, function () {
+    validateTitle();
+  });
+  FORM_FIELD_PRICE.addEventListener(`input`, function () {
+    validateMaxPrice();
+  });
+  FORM_FIELD_TYPE.addEventListener(`input`, function () {
+    validatePriceOfType();
+  });
+  FORM_FIELD_TIME_IN.addEventListener(`change`, function () {
+    validateTimeIn();
+  });
+  FORM_FIELD_TIME_OUT.addEventListener(`change`, function () {
+    validateTimeOut();
+  });
+  FORM_FIELD_GUESTS.addEventListener(`change`, function () {
+    validatesRoomAndGuest();
+  });
+  FORM_FIELD_ROOMS.addEventListener(`change`, function () {
+    validatesRoomAndGuest();
+  });
+};
+
+validatesForm();
+const onMainPinClick = function () {
+  activatePage();
+  validatePriceOfType();
+  validatesRoomAndGuest();
+};
