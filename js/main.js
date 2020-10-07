@@ -125,8 +125,8 @@ const renderPins = function () {
   }
 };
 
-let card = CARD_TEMPLATE.cloneNode(true);
 let renderCardTemplate = function () {
+  let card = CARD_TEMPLATE.cloneNode(true);
   MAP.insertBefore(card, FILTERS_CONTAINER);
   let closeCard = card.querySelector(`.popup__close`);
   const toCloseCardClick = function () {
@@ -293,20 +293,20 @@ const activatePage = function () {
   MAP_MAIN_PIN.removeEventListener(`mousedown`, activatePage);
   MAP_MAIN_PIN.removeEventListener(`keydown`, activatePage);
 };
-renderCard(offersList[0]);
-// const clickToPin = function (obj) {
-//   let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-//   for (let i = 0; i < pins.length; i++) {
-//     pins[i].addEventListener(`click`, function () {
-//       renderCard(obj[i]);
-//     });
-//   }
-// };
+
+const clickToPin = function (obj) {
+  let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+  for (let i = 0; i < pins.length; i++) {
+    pins[i].addEventListener(`click`, function () {
+      renderCard(obj[i]);
+    });
+  }
+};
 
 MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
   if (evt.which === 1) {
     onMainPinClick();
-    // clickToPin(offersList);
+    clickToPin(offersList);
   }
 });
 MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
