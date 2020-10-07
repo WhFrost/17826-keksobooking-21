@@ -15,7 +15,7 @@ const OFFER_PHOTOS = [
 const LOCATION_X = document.querySelector(`.map`).offsetWidth;
 const LOCATION_Y = 630;
 const MAP = document.querySelector(`.map`);
-const MAP_PIN = document.querySelector(`.map__pins`);
+const MAP_PINS = document.querySelector(`.map__pins`);
 const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
 const MAIN_PIN_WIDTH = 65;
 const MAIN_PIN_HEIGHT = 65;
@@ -112,7 +112,7 @@ let offersList = getOffersList();
 
 const renderPin = function (obj) {
   let pin = PIN_TEMPLATE.cloneNode(true);
-  MAP_PIN.appendChild(pin);
+  MAP_PINS.appendChild(pin);
   pin.style.left = obj.location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
   pin.style.top = obj.location.y + PIN_TEMPLATE.offsetHeight + `px`;
   pin.querySelector(`img`).src = obj.author.avatar;
@@ -125,15 +125,15 @@ const renderPins = function () {
   }
 };
 
+let card = CARD_TEMPLATE.cloneNode(true);
 let renderCardTemplate = function () {
-  let card = CARD_TEMPLATE.cloneNode(true);
-  let closeCard = card.querySelector(`.popup__close`);
   MAP.insertBefore(card, FILTERS_CONTAINER);
-  let toCloseCardClick = function () {
+  let closeCard = card.querySelector(`.popup__close`);
+  const toCloseCardClick = function () {
     card.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
   };
-  let toCloseCardEsc = function (evt) {
+  const toCloseCardEsc = function (evt) {
     if (evt.key === `Escape`) {
       evt.preventDefault();
       card.remove();
@@ -265,8 +265,6 @@ let renderCard = function (obj) {
   renderCardPhoto(obj);
 };
 
-renderCard(offersList[0]);
-
 const disablePage = function () {
   MAP.classList.add(`map--faded`);
   FORM.classList.add(`ad-form--disabled`);
@@ -285,18 +283,30 @@ const activatePage = function () {
   FORM.classList.remove(`ad-form--disabled`);
   FORM_FIELD_ADDRESS.value = MAIN_PIN_X + `, ` + (MAIN_PIN_Y + MAIN_PIN_OFFSET_Y);
   FORM_FIELD_ADDRESS.setAttribute(`readonly`, true);
-  renderPins();
   for (let i = 0; i < MAP_FILTERS.length; i++) {
     MAP_FILTERS[i].removeAttribute(`disabled`, true);
   }
   for (let i = 0; i < FORM_FIELDSET.length; i++) {
     FORM_FIELDSET[i].removeAttribute(`disabled`);
   }
+  renderPins();
+  MAP_MAIN_PIN.removeEventListener(`mousedown`, activatePage);
+  MAP_MAIN_PIN.removeEventListener(`keydown`, activatePage);
 };
+renderCard(offersList[0]);
+// const clickToPin = function (obj) {
+//   let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+//   for (let i = 0; i < pins.length; i++) {
+//     pins[i].addEventListener(`click`, function () {
+//       renderCard(obj[i]);
+//     });
+//   }
+// };
 
 MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
   if (evt.which === 1) {
     onMainPinClick();
+    // clickToPin(offersList);
   }
 });
 MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
@@ -391,4 +401,6 @@ const onMainPinClick = function () {
   activatePage();
   validatePriceOfType();
   validatesRoomAndGuest();
+  MAP_MAIN_PIN.removeEventListener(`mousedown`, onMainPinClick);
+  MAP_MAIN_PIN.removeEventListener(`keydown`, onMainPinClick);
 };
