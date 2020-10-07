@@ -129,16 +129,20 @@ let renderCardTemplate = function () {
   let card = CARD_TEMPLATE.cloneNode(true);
   let closeCard = card.querySelector(`.popup__close`);
   MAP.insertBefore(card, FILTERS_CONTAINER);
-
-  let toCloseCard = function () {
-    closeCard.addEventListener(`click`, function () {
+  let toCloseCardClick = function () {
+    card.remove();
+    document.removeEventListener(`keydown`, toCloseCardEsc);
+  };
+  let toCloseCardEsc = function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
       card.remove();
-    });
-    document.addEventListener(`keydown`, function (evt) {
-      if (evt.key === `Escape`) {
-        card.remove();
-      }
-    });
+      document.removeEventListener(`keydown`, toCloseCardEsc);
+    }
+  };
+  let toCloseCard = function () {
+    closeCard.addEventListener(`click`, toCloseCardClick);
+    document.addEventListener(`keydown`, toCloseCardEsc);
   };
   toCloseCard();
 };
