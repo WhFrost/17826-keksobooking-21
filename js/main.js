@@ -16,6 +16,7 @@ const LOCATION_X = document.querySelector(`.map`).offsetWidth;
 const LOCATION_Y = 630;
 const MAP = document.querySelector(`.map`);
 const MAP_PINS = document.querySelector(`.map__pins`);
+const MAP_CARD = document.querySelector(`.map__card`);
 const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
 const MAIN_PIN_WIDTH = 65;
 const MAIN_PIN_HEIGHT = 65;
@@ -128,23 +129,28 @@ const renderPins = function () {
 let renderCardTemplate = function () {
   let card = CARD_TEMPLATE.cloneNode(true);
   MAP.insertBefore(card, FILTERS_CONTAINER);
-  let closeCard = card.querySelector(`.popup__close`);
-  const toCloseCardClick = function () {
-    card.remove();
+};
+
+const toCloseCardClick = function () {
+  if (MAP_CARD) {
+    MAP_CARD.remove();
+  }
+  document.removeEventListener(`keydown`, toCloseCardEsc);
+};
+const toCloseCardEsc = function (evt) {
+  if (MAP_CARD) {
+    MAP_CARD.remove();
+  }
+  if (evt.key === `Escape`) {
+    evt.preventDefault();
+    MAP_CARD.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
-  };
-  const toCloseCardEsc = function (evt) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      card.remove();
-      document.removeEventListener(`keydown`, toCloseCardEsc);
-    }
-  };
-  let toCloseCard = function () {
-    closeCard.addEventListener(`click`, toCloseCardClick);
-    document.addEventListener(`keydown`, toCloseCardEsc);
-  };
-  toCloseCard();
+  }
+};
+let toCloseCard = function () {
+  let closeCard = MAP_CARD.querySelector(`.popup__close`);
+  closeCard.addEventListener(`click`, toCloseCardClick);
+  document.addEventListener(`keydown`, toCloseCardEsc);
 };
 
 let renderCardAvatar = function (obj) {
@@ -253,6 +259,7 @@ let renderCardPhoto = function (obj) {
 
 let renderCard = function (obj) {
   renderCardTemplate();
+  toCloseCard();
   renderCardAvatar(obj);
   renderCardTitle(obj);
   renderCardAddress(obj);
@@ -278,6 +285,15 @@ const disablePage = function () {
 };
 disablePage();
 
+const clickToPin = function (obj) {
+  let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+  for (let i = 0; i < pins.length; i++) {
+    pins[i].addEventListener(`click`, function () {
+      renderCard(obj[i]);
+    });
+  }
+};
+
 const activatePage = function () {
   MAP.classList.remove(`map--faded`);
   FORM.classList.remove(`ad-form--disabled`);
@@ -290,30 +306,8 @@ const activatePage = function () {
     FORM_FIELDSET[i].removeAttribute(`disabled`);
   }
   renderPins();
-  MAP_MAIN_PIN.removeEventListener(`mousedown`, activatePage);
-  MAP_MAIN_PIN.removeEventListener(`keydown`, activatePage);
+  clickToPin(offersList);
 };
-
-const clickToPin = function (obj) {
-  let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-  for (let i = 0; i < pins.length; i++) {
-    pins[i].addEventListener(`click`, function () {
-      renderCard(obj[i]);
-    });
-  }
-};
-
-MAP_MAIN_PIN.addEventListener(`mousedown`, function (evt) {
-  if (evt.which === 1) {
-    onMainPinClick();
-    clickToPin(offersList);
-  }
-});
-MAP_MAIN_PIN.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Enter`) {
-    onMainPinClick();
-  }
-});
 
 // Валидация заголовка
 const validateTitle = function () {
@@ -395,12 +389,16 @@ const validatesForm = function () {
     validatesRoomAndGuest();
   });
 };
-
 validatesForm();
-const onMainPinClick = function () {
-  activatePage();
-  validatePriceOfType();
-  validatesRoomAndGuest();
-  MAP_MAIN_PIN.removeEventListener(`mousedown`, onMainPinClick);
-  MAP_MAIN_PIN.removeEventListener(`keydown`, onMainPinClick);
+
+const onMainPinClick = function (evt) {
+  if (evt.which === 1 || evt.key === `Enter`) {
+    activatePage();
+    validatePriceOfType();
+    validatesRoomAndGuest();
+    MAP_MAIN_PIN.removeEventListener(`mousedown`, onMainPinClick);
+    MAP_MAIN_PIN.removeEventListener(`keydown`, onMainPinClick);
+  }
 };
+MAP_MAIN_PIN.addEventListener(`mousedown`, onMainPinClick);
+MAP_MAIN_PIN.addEventListener(`keydown`, onMainPinClick);
