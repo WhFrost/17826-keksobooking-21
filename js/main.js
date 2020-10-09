@@ -16,7 +16,7 @@ const LOCATION_X = document.querySelector(`.map`).offsetWidth;
 const LOCATION_Y = 630;
 const MAP = document.querySelector(`.map`);
 const MAP_PINS = document.querySelector(`.map__pins`);
-const MAP_CARD = document.querySelector(`.map__card`);
+const CARD = document.querySelector(`.map__card`);
 const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
 const MAIN_PIN_WIDTH = 65;
 const MAIN_PIN_HEIGHT = 65;
@@ -132,23 +132,23 @@ let renderCardTemplate = function () {
 };
 
 const toCloseCardClick = function () {
-  if (MAP_CARD) {
-    MAP_CARD.remove();
+  if (CARD) {
+    CARD.remove();
   }
   document.removeEventListener(`keydown`, toCloseCardEsc);
 };
 const toCloseCardEsc = function (evt) {
-  if (MAP_CARD) {
-    MAP_CARD.remove();
+  if (CARD) {
+    CARD.remove();
   }
   if (evt.key === `Escape`) {
     evt.preventDefault();
-    MAP_CARD.remove();
+    CARD.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
   }
 };
 let toCloseCard = function () {
-  let closeCard = MAP_CARD.querySelector(`.popup__close`);
+  let closeCard = CARD.querySelector(`.popup__close`);
   closeCard.addEventListener(`click`, toCloseCardClick);
   document.addEventListener(`keydown`, toCloseCardEsc);
 };
