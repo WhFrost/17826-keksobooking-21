@@ -16,7 +16,6 @@ const LOCATION_X = document.querySelector(`.map`).offsetWidth;
 const LOCATION_Y = 630;
 const MAP = document.querySelector(`.map`);
 const MAP_PINS = document.querySelector(`.map__pins`);
-const CARD = document.querySelector(`.map__card`);
 const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
 const MAIN_PIN_WIDTH = 65;
 const MAIN_PIN_HEIGHT = 65;
@@ -128,29 +127,28 @@ const renderPins = function () {
 
 let renderCardTemplate = function () {
   let card = CARD_TEMPLATE.cloneNode(true);
+  let cardOnMap = document.querySelector(`.map__card`);
+  if (cardOnMap) {
+    cardOnMap.remove();
+  }
   MAP.insertBefore(card, FILTERS_CONTAINER);
-};
-
-const toCloseCardClick = function () {
-  if (CARD) {
-    CARD.remove();
-  }
-  document.removeEventListener(`keydown`, toCloseCardEsc);
-};
-const toCloseCardEsc = function (evt) {
-  if (CARD) {
-    CARD.remove();
-  }
-  if (evt.key === `Escape`) {
-    evt.preventDefault();
-    CARD.remove();
+  const toCloseCardClick = function () {
+    card.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
-  }
-};
-let toCloseCard = function () {
-  let closeCard = CARD.querySelector(`.popup__close`);
-  closeCard.addEventListener(`click`, toCloseCardClick);
-  document.addEventListener(`keydown`, toCloseCardEsc);
+  };
+  const toCloseCardEsc = function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      card.remove();
+      document.removeEventListener(`keydown`, toCloseCardEsc);
+    }
+  };
+  const toCloseCard = function () {
+    let closeCard = card.querySelector(`.popup__close`);
+    closeCard.addEventListener(`click`, toCloseCardClick);
+    document.addEventListener(`keydown`, toCloseCardEsc);
+  };
+  toCloseCard();
 };
 
 let renderCardAvatar = function (obj) {
@@ -259,7 +257,7 @@ let renderCardPhoto = function (obj) {
 
 let renderCard = function (obj) {
   renderCardTemplate();
-  toCloseCard();
+  // toCloseCard();
   renderCardAvatar(obj);
   renderCardTitle(obj);
   renderCardAddress(obj);
