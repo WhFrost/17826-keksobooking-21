@@ -128,9 +128,7 @@ const renderPins = function () {
 let renderCardTemplate = function () {
   let card = CARD_TEMPLATE.cloneNode(true);
   let cardOnMap = document.querySelector(`.map__card`);
-  if (cardOnMap) {
-    cardOnMap.remove();
-  }
+
   MAP.insertBefore(card, FILTERS_CONTAINER);
   const toCloseCardClick = function () {
     card.remove();
@@ -149,6 +147,10 @@ let renderCardTemplate = function () {
     document.addEventListener(`keydown`, toCloseCardEsc);
   };
   toCloseCard();
+  if (cardOnMap) {
+    cardOnMap.remove();
+    document.removeEventListener(`keydown`, toCloseCardEsc);
+  }
 };
 
 let renderCardAvatar = function (obj) {
