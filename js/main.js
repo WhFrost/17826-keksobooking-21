@@ -126,15 +126,18 @@ const renderPins = function () {
 };
 
 let renderCardTemplate = function () {
-  let card = CARD_TEMPLATE.cloneNode(true);
   let cardOnMap = document.querySelector(`.map__card`);
+  if (cardOnMap) {
+    return;
+  }
+  let card = CARD_TEMPLATE.cloneNode(true);
   MAP.insertBefore(card, FILTERS_CONTAINER);
-  const toCloseCardClick = function () {
-    removeCard();
-  };
   const removeCard = function () {
     card.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
+  };
+  const toCloseCardClick = function () {
+    removeCard();
   };
   const toCloseCardEsc = function (evt) {
     if (evt.key === `Escape`) {
@@ -148,9 +151,7 @@ let renderCardTemplate = function () {
     document.addEventListener(`keydown`, toCloseCardEsc);
   };
   toCloseCard();
-  if (cardOnMap) {
-    removeCard();
-  }
+
 };
 
 let renderCardAvatar = function (obj) {
