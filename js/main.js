@@ -130,14 +130,16 @@ let renderCardTemplate = function () {
   let cardOnMap = document.querySelector(`.map__card`);
   MAP.insertBefore(card, FILTERS_CONTAINER);
   const toCloseCardClick = function () {
+    removeCard();
+  };
+  const removeCard = function () {
     card.remove();
     document.removeEventListener(`keydown`, toCloseCardEsc);
   };
   const toCloseCardEsc = function (evt) {
     if (evt.key === `Escape`) {
       evt.preventDefault();
-      card.remove();
-      document.removeEventListener(`keydown`, toCloseCardEsc);
+      removeCard();
     }
   };
   const toCloseCard = function () {
@@ -147,8 +149,7 @@ let renderCardTemplate = function () {
   };
   toCloseCard();
   if (cardOnMap) {
-    cardOnMap.remove();
-    document.removeEventListener(`keydown`, toCloseCardEsc);
+    removeCard();
   }
 };
 
