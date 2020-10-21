@@ -24,7 +24,6 @@ const activatePage = function () {
   for (let i = 0; i < window.form.fieldset.length; i++) {
     window.form.fieldset[i].removeAttribute(`disabled`);
   }
-  // renderPins();
   window.map.pinsOnMap();
   window.pin.clickPin(window.data.offersList);
 };
