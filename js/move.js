@@ -8,11 +8,9 @@
         x: evt.clientX,
         y: evt.clientY
       };
-      let dragged = false;
 
       let onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
-        dragged = true;
         let shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY,
@@ -21,29 +19,32 @@
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
-        if (startCoords.y < window.data.mapHeightMin) {
+        let newCoords = {
+          x: window.map.mainPin.offsetLeft - shift.x,
+          y: window.map.mainPin.offsetTop - shift.y
+        };
+        if (newCoords.y <= window.data.mapHeightMin) {
           window.map.mainPin.style.top = window.data.mapHeightMin - window.pin.pinHeight + `px`;
         }
-        if (startCoords.y > window.data.mapHeightMax) {
+        if (newCoords.y >= window.data.mapHeightMax) {
           window.map.mainPin.style.top = window.data.mapHeightMax + `px`;
         }
-        if (startCoords.x < `0`) {
+        if (newCoords.x <= 0) {
           window.map.mainPin.style.left = 0 - window.pin.pinWidth / 2 + `px`;
         }
-        if (startCoords.x > window.data.mapWidth) {
+        if (newCoords.x >= window.data.mapWidth) {
           window.map.mainPin.style.left = window.data.mapWidth - window.pin.pinWidth / 2 + `px`;
         }
-        window.map.mainPin.style.top = (window.map.mainPin.offsetTop - shift.y) + `px`;
-        window.map.mainPin.style.left = (window.map.mainPin.offsetLeft - shift.x) + `px`;
+        console.log(`X: ` + newCoords.x + `, ` + `Y: ` + newCoords.y);
+        window.map.mainPin.style.top = newCoords.y + `px`;
+        window.map.mainPin.style.left = newCoords.x + `px`;
+        window.form.address.value = newCoords.x + `, ` + (newCoords.y + window.map.mainPinOffset);
       };
 
       let onMouseUp = function (upEvt) {
         upEvt.preventDefault();
         document.removeEventListener(`mousemove`, onMouseMove);
         document.removeEventListener(`mouseup`, onMouseUp);
-        if (dragged) {
-          window.form.address.value = startCoords.x + `, ` + (startCoords.y + window.map.mainPinOffset);
-        }
       };
 
       document.addEventListener(`mousemove`, onMouseMove);
