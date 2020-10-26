@@ -35,7 +35,6 @@
         if (newCoords.x >= window.data.mapWidth) {
           window.map.mainPin.style.left = window.data.mapWidth - window.pin.pinWidth / 2 + `px`;
         }
-        console.log(`X: ` + newCoords.x + `, ` + `Y: ` + newCoords.y);
         window.map.mainPin.style.top = newCoords.y + `px`;
         window.map.mainPin.style.left = newCoords.x + `px`;
         window.form.address.value = newCoords.x + `, ` + (newCoords.y + window.map.mainPinOffset);
