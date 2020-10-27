@@ -1,6 +1,7 @@
 "use strict";
 
 (function () {
+  const MAIN = document.querySelector(`main`);
   const FORM = document.querySelector(`.ad-form`);
   const FORM_FIELDSET = FORM.querySelectorAll(`fieldset`);
   const FORM_FIELD_TITLE = FORM.querySelector(`#title`);
@@ -78,6 +79,57 @@
     }
   };
 
+  const renderSuccess = function () {
+    const onSuccessTemplate = document.querySelector(`#success`)
+    .content
+    .querySelector(`.success`);
+    let onSuccess = onSuccessTemplate.cloneNode(true);
+    MAIN.appendChild(onSuccess);
+    const removeSuccess = function () {
+      onSuccess.remove();
+      document.removeEventListener(`keydown`, removeSuccessEsc);
+    };
+
+    const removeSuccessEsc = function (evt) {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        removeSuccess();
+      }
+    };
+    const toCloseSuccsess = function () {
+      onSuccess.addEventListener(`click`, removeSuccess);
+      document.addEventListener(`keydown`, removeSuccessEsc);
+    };
+    toCloseSuccsess();
+  };
+  const renderError = function () {
+    const onErrorTemplate = document.querySelector(`#error`)
+    .content
+    .querySelector(`.error`);
+    let onError = onErrorTemplate.cloneNode(true);
+    MAIN.appendChild(onError);
+    const removeError = function () {
+      onError.remove();
+      document.removeEventListener(`keydown`, removeErrorEsc);
+    };
+    const removeErrorEsc = function (evt) {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        removeError();
+      }
+    };
+    const toCloseSuccsess = function () {
+      onError.addEventListener(`click`, removeError);
+      document.addEventListener(`keydown`, removeErrorEsc);
+    };
+    toCloseSuccsess();
+  };
+
+  const uploadForm = function (evt) {
+    evt.preventDefault();
+    window.load(window.backend.method.post, window.backend.url.upload, renderSuccess, renderError, new FormData(FORM));
+  };
+
   const validatesForm = function () {
     FORM_FIELD_TITLE.addEventListener(`input`, function () {
       validateTitle();
@@ -100,6 +152,7 @@
     FORM_FIELD_ROOMS.addEventListener(`change`, function () {
       validatesRoomAndGuest();
     });
+    FORM.addEventListener(`submit`, uploadForm);
   };
   window.form = {
     form: FORM,
@@ -108,5 +161,7 @@
     validateForm: validatesForm,
     validateRoom: validatesRoomAndGuest,
     validatePrice: validatePriceOfType,
+    onSuccess: renderSuccess,
+    onError: renderError
   };
 })();

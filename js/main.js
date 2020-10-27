@@ -26,7 +26,9 @@ const activatePage = function () {
   }
   window.map.pinsOnMap();
   window.pin.clickPin(window.data.offersList);
+  console.log(window.data.offersList);
 };
 window.main = {
   activate: activatePage,
+  disable: disablePage
 };

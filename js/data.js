@@ -44,16 +44,24 @@
     };
   };
 
-  const getOffersList = function (count) {
-    let offersList = [];
-    for (let i = 0; i < count; i++) {
-      offersList.push(getRandomOffer());
-    }
+  // const getOffersList = function (count) {
+  //   let offersList = [];
+  //   for (let i = 0; i < count; i++) {
+  //     offersList.push(getRandomOffer());
+  //   }
+  //   return offersList;
+  // };
+
+  const getOffersList = function (data) {
+    let offersList = data;
+    console.log(offersList);
     return offersList;
   };
 
+ window.load(window.backend.method.get, window.backend.url.download, getOffersList, function () {});
+
   window.data = {
     offerCount: OFFER_COUNT,
-    offersList: getOffersList(OFFER_COUNT)
+    offersList: getOffersList()
   };
 })();

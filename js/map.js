@@ -17,6 +17,7 @@
   const onMainPinClick = function (evt) {
     if (evt.which === 1 || evt.key === `Enter`) {
       window.main.activate();
+      window.form.validateForm();
       window.form.validatePrice();
       window.form.validateRoom();
       MAP_MAIN_PIN.removeEventListener(`mousedown`, onMainPinClick);
