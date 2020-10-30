@@ -39,7 +39,7 @@
         }
         window.map.mainPin.style.top = newCoords.y + `px`;
         window.map.mainPin.style.left = newCoords.x + `px`;
-        window.form.address.value = newCoords.x + `, ` + (newCoords.y + window.map.mainPinOffset);
+        window.form.address.value = Math.floor(newCoords.x + (window.map.mainPinWidth / 2)) + `, ` + (newCoords.y + window.map.mainPinOffset);
       };
       let onMouseUp = function (upEvt) {
         upEvt.preventDefault();
