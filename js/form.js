@@ -22,7 +22,6 @@
   const FORM_FIELD_ROOMS = FORM.querySelector(`#room_number`);
   const FORM_FIELD_GUESTS = FORM.querySelector(`#capacity`);
 
-  // Валидация заголовка
   const validateTitle = function () {
     let titleLength = FORM_FIELD_TITLE.value.length;
     if (titleLength === 0) {
@@ -36,7 +35,6 @@
     }
   };
 
-  // Валидация цены за ночь
   const validateMaxPrice = function () {
     if (FORM_FIELD_PRICE.value > MAX_PRICE) {
       FORM_FIELD_PRICE.setCustomValidity(`Слишком большая стоимость`);
@@ -49,7 +47,6 @@
     FORM_FIELD_PRICE.setAttribute(`min`, TYPE_PRICE[FORM_FIELD_TYPE.value]);
   };
 
-  // Валидация времени заезда и выезда
   const validateTimeIn = function () {
     let timeOutOptions = FORM_FIELD_TIME_OUT.querySelectorAll(`option`);
     for (let i = 0; i < timeOutOptions.length; i++) {
@@ -65,7 +62,6 @@
     timeInOptions[FORM_FIELD_TIME_OUT.selectedIndex].setAttribute(`selected`, true);
   };
 
-  // Валидация кол-ва гостей и комнат
   const validatesRoomAndGuest = function () {
     if (Number(FORM_FIELD_ROOMS.value) === 100 && Number(FORM_FIELD_GUESTS.value) !== 0) {
       FORM_FIELD_GUESTS.setCustomValidity(`Выбрано помещение не для гостей. Пожалуйста, измените свой выбор`);

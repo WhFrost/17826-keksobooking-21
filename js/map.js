@@ -46,6 +46,8 @@
     mainPin: MAP_MAIN_PIN,
     mainPinX: MAIN_PIN_X,
     mainPinY: MAIN_PIN_Y,
+    mainPinWidth: MAIN_PIN_WIDTH,
+    mainPinHeight: MAIN_PIN_HEIGHT,
     mainPinOffset: MAIN_PIN_OFFSET_Y,
     pinsOnMap: renderPins
   };
