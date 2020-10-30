@@ -2,6 +2,9 @@
 
 (function () {
   const MAP = document.querySelector(`.map`);
+  const MAP_WIDTH = document.querySelector(`.map`).offsetWidth;
+  const MIN_LOCATION_Y = 130;
+  const MAX_LOCATION_Y = 630;
   const MAP_FILTERS = document.querySelectorAll(`.map__filter`);
   const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
   const MAIN_PIN_WIDTH = 65;
@@ -42,6 +45,9 @@
   MAP_MAIN_PIN.addEventListener(`keydown`, onMainPinClick);
   window.map = {
     map: MAP,
+    mapWidth: MAP_WIDTH,
+    mapHeightMin: MIN_LOCATION_Y,
+    mapHeightMax: MAX_LOCATION_Y,
     filters: MAP_FILTERS,
     mainPin: MAP_MAIN_PIN,
     mainPinX: MAIN_PIN_X,
