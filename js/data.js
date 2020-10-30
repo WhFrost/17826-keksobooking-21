@@ -14,12 +14,13 @@
     `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
   ];
   const LOCATION_X = document.querySelector(`.map`).offsetWidth;
-  const LOCATION_Y = 630;
+  const MIN_LOCATION_Y = 130;
+  const MAX_LOCATION_Y = 630;
 
   const getRandomOffer = function () {
     let userId = window.utils.nextRandomUserId(USERS_ID);
     let locationX = window.utils.random(0, LOCATION_X);
-    let locationY = window.utils.random(0, LOCATION_Y);
+    let locationY = window.utils.random(MIN_LOCATION_Y, MAX_LOCATION_Y);
     return {
       author: {
         avatar: `img/avatars/user0` + userId + `.png`
@@ -54,6 +55,9 @@
 
   window.data = {
     offerCount: OFFER_COUNT,
+    mapWidth: LOCATION_X,
+    mapHeightMin: MIN_LOCATION_Y,
+    mapHeightMax: MAX_LOCATION_Y,
     offersList: getOffersList(OFFER_COUNT)
   };
 })();

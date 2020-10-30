@@ -5,11 +5,13 @@
   const PIN_TEMPLATE = document.querySelector(`#pin`)
   .content
   .querySelector(`.map__pin`);
+  const PIN_WIDTH = MAP_PINS.querySelector(`.map__pin`).offsetWidth;
+  const PIN_HEIGHT = MAP_PINS.querySelector(`.map__pin`).offsetHeight;
   const renderPin = function (obj) {
     let pin = PIN_TEMPLATE.cloneNode(true);
     MAP_PINS.appendChild(pin);
-    pin.style.left = obj.location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
-    pin.style.top = obj.location.y + PIN_TEMPLATE.offsetHeight + `px`;
+    pin.style.left = obj.location.x - PIN_WIDTH / 2 + `px`;
+    pin.style.top = obj.location.y - PIN_HEIGHT + `px`;
     pin.querySelector(`img`).src = obj.author.avatar;
     pin.querySelector(`img`).alt = obj.offer.title;
   };
@@ -23,6 +25,8 @@
   };
   window.pin = {
     mapPins: MAP_PINS,
+    pinWidth: PIN_WIDTH,
+    pinHeight: PIN_HEIGHT,
     pins: renderPin,
     clickPin: clickToPin
   };
