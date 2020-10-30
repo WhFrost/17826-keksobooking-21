@@ -25,7 +25,6 @@ const activatePage = function () {
     window.form.fieldset[i].removeAttribute(`disabled`);
   }
   window.map.pinsOnMap();
-  // window.pin.clickPin(window.data.offersList);
   window.load(window.backend.method.get, window.backend.url.download, window.pin.clickPin, function () {});
 };
 window.main = {

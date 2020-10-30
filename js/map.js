@@ -17,7 +17,6 @@
 
   const renderPins = function () {
     for (let i = 0; i < window.data.offerCount; i++) {
-      // window.pin.pins(window.data.offersList[i]);
       const renderPin = function (obj) {
         let pin = PIN_TEMPLATE.cloneNode(true);
         MAP_PINS.appendChild(pin);
