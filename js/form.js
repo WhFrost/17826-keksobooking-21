@@ -3,6 +3,7 @@
 (function () {
   const MAIN = document.querySelector(`main`);
   const FORM = document.querySelector(`.ad-form`);
+  const FORM_RESET = FORM.querySelector(`.ad-form__reset`);
   const FORM_FIELDSET = FORM.querySelectorAll(`fieldset`);
   const FORM_FIELD_TITLE = FORM.querySelector(`#title`);
   const MIN_TITLE_LENGTH = 30;
@@ -97,6 +98,7 @@
       document.addEventListener(`keydown`, removeSuccessEsc);
     };
     toCloseSuccsess();
+    window.main.disable();
   };
   const renderError = function () {
     const onErrorTemplate = document.querySelector(`#error`)
@@ -114,11 +116,18 @@
         removeError();
       }
     };
-    const toCloseSuccsess = function () {
+    let onErrorButton = onError.querySelector(`.error__button`);
+    const toCloseError = function () {
+      onErrorButton.addEventListener(`click`, removeError);
       onError.addEventListener(`click`, removeError);
       document.addEventListener(`keydown`, removeErrorEsc);
     };
-    toCloseSuccsess();
+    toCloseError();
+  };
+
+  const resetForm = function (evt) {
+    evt.preventDefault();
+    window.main.disable();
   };
 
   const uploadForm = function (evt) {
@@ -149,6 +158,7 @@
       validatesRoomAndGuest();
     });
     FORM.addEventListener(`submit`, uploadForm);
+    FORM_RESET.addEventListener(`click`, resetForm);
   };
   window.form = {
     form: FORM,

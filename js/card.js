@@ -149,7 +149,16 @@
     renderCardDescription(obj);
     renderCardPhoto(obj);
   };
+
+  const removeCardOnMap = function () {
+    let card = document.querySelector(`.popup`);
+    if (card) {
+      card.remove();
+    }
+  };
+
   window.card = {
-    card: renderCard
+    card: renderCard,
+    removeCard: removeCardOnMap,
   };
 })();

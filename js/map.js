@@ -7,6 +7,8 @@
   const MAX_LOCATION_Y = 630;
   const MAP_FILTERS = document.querySelectorAll(`.map__filter`);
   const MAP_MAIN_PIN = document.querySelector(`.map__pin--main`);
+  const MAIN_PIN_DEFAULT_POSITION_X = 570;
+  const MAIN_PIN_DEFAULT_POSITION_Y = 375;
   const MAIN_PIN_WIDTH = 65;
   const MAIN_PIN_HEIGHT = 65;
   const MAIN_PIN_X = Math.round(MAIN_PIN_WIDTH / 2 + MAP_MAIN_PIN.offsetLeft);
@@ -34,6 +36,14 @@
       });
     }
   };
+  const removePinsOnMap = function () {
+    let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    if (pins) {
+      for (let i = 0; i < pins.length; i++) {
+        pins[i].remove();
+      }
+    }
+  };
   const onMainPinClick = function (evt) {
     if (evt.which === 1 || evt.key === `Enter`) {
       window.main.activate();
@@ -44,8 +54,12 @@
       MAP_MAIN_PIN.removeEventListener(`keydown`, onMainPinClick);
     }
   };
-  MAP_MAIN_PIN.addEventListener(`mousedown`, onMainPinClick);
-  MAP_MAIN_PIN.addEventListener(`keydown`, onMainPinClick);
+  const addEventMainPin = function () {
+    MAP_MAIN_PIN.addEventListener(`mousedown`, onMainPinClick);
+    MAP_MAIN_PIN.addEventListener(`keydown`, onMainPinClick);
+  };
+  addEventMainPin();
+
   window.map = {
     map: MAP,
     mapWidth: MAP_WIDTH,
@@ -53,11 +67,15 @@
     mapHeightMax: MAX_LOCATION_Y,
     filters: MAP_FILTERS,
     mainPin: MAP_MAIN_PIN,
+    defaultMainPinX: MAIN_PIN_DEFAULT_POSITION_X,
+    defaultMainPinY: MAIN_PIN_DEFAULT_POSITION_Y,
     mainPinX: MAIN_PIN_X,
     mainPinY: MAIN_PIN_Y,
     mainPinWidth: MAIN_PIN_WIDTH,
     mainPinHeight: MAIN_PIN_HEIGHT,
     mainPinOffset: MAIN_PIN_OFFSET_Y,
-    pinsOnMap: renderPins
+    pinsOnMap: renderPins,
+    removePins: removePinsOnMap,
+    mainPinEvent: addEventMainPin
   };
 })();
