@@ -27,6 +27,12 @@
       pin.querySelector(`img`).src = obj[i].author.avatar;
       pin.querySelector(`img`).alt = obj[i].offer.title;
     }
+    let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    for (let i = 0; i < pins.length; i++) {
+      pins[i].addEventListener(`click`, function () {
+        window.card.card(obj[i]);
+      });
+    }
   };
   const onMainPinClick = function (evt) {
     if (evt.which === 1 || evt.key === `Enter`) {
