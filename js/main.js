@@ -24,8 +24,9 @@ const activatePage = function () {
   for (let i = 0; i < window.form.fieldset.length; i++) {
     window.form.fieldset[i].removeAttribute(`disabled`);
   }
-  window.map.pinsOnMap();
-  window.load(window.backend.method.get, window.backend.url.download, window.pin.clickPin, function () {});
+  // window.map.pinsOnMap();
+  window.load(window.backend.method.get, window.backend.url.download, window.map.pinsOnMap, window.utils.error);
+  window.load(window.backend.method.get, window.backend.url.download, window.pin.clickPin, window.utils.error);
 };
 window.main = {
   activate: activatePage,

@@ -9,7 +9,7 @@
     download: `https://21.javascript.pages.academy/keksobooking/data`,
     upload: `https://21.javascript.pages.academy/keksobooking`
   };
-  const TIMEOUT = 10000;
+  const TIMEOUT = 1000;
   window.load = function (method, url, onSuccess, onError, data) {
     const xhr = new XMLHttpRequest();
 
