@@ -37,7 +37,7 @@
     if (obj.author.avatar) {
       popupAvatar.src = obj.author.avatar;
     } else {
-      popupAvatar.remove();
+      popupAvatar.style.display = `none`;
     }
   };
   let renderCardTitle = function (obj) {
@@ -49,7 +49,7 @@
     if (obj.offer.address) {
       popupAddress.textContent = obj.offer.address;
     } else {
-      popupAddress.remove();
+      popupAddress.style.display = `none`;
     }
   };
   let renderCardPrice = function (obj) {
@@ -67,7 +67,7 @@
     if (obj.offer.type) {
       popupType.textContent = typeTranslation[obj.offer.type];
     } else {
-      popupType.remove();
+      popupType.style.display = `none`;
     }
   };
   let renderCardCapacity = function (obj) {
@@ -75,7 +75,7 @@
     if (obj.offer.rooms && obj.offer.guests) {
       popupCapacity.textContent = obj.offer.rooms + ` комнаты для ` + obj.offer.guests + ` гостей`;
     } else {
-      popupCapacity.remove();
+      popupCapacity.style.display = `none`;
     }
   };
   let renderCardTime = function (obj) {
@@ -83,7 +83,7 @@
     if (obj.offer.checkin && obj.offer.checkout) {
       popupTime.textContent = `Заезд после ` + obj.offer.checkin + `, выезд до ` + obj.offer.checkout;
     } else {
-      popupTime.remove();
+      popupTime.style.display = `none`;
     }
   };
   let renderCardFeatures = function (obj) {
@@ -102,7 +102,7 @@
         createFeature();
       }
     } else {
-      popupFeatures.remove();
+      popupFeatures.style.display = `none`;
     }
   };
   let renderCardDescription = function (obj) {
@@ -110,7 +110,7 @@
     if (obj.offer.description) {
       popupDescription.textContent = obj.offer.description;
     } else {
-      popupDescription.remove();
+      popupDescription.style.display = `none`;
     }
   };
   let renderCardPhoto = function (obj) {
@@ -132,7 +132,7 @@
         createPhoto();
       }
     } else {
-      popupPhoto.remove();
+      popupPhoto.style.display = `none`;
     }
   };
 
@@ -149,7 +149,16 @@
     renderCardDescription(obj);
     renderCardPhoto(obj);
   };
+
+  const removeCardOnMap = function () {
+    let card = document.querySelector(`.popup`);
+    if (card) {
+      card.remove();
+    }
+  };
+
   window.card = {
-    card: renderCard
+    card: renderCard,
+    removeCard: removeCardOnMap,
   };
 })();

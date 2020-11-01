@@ -10,6 +10,12 @@ const disablePage = function () {
   for (let i = 0; i < window.form.fieldset.length; i++) {
     window.form.fieldset[i].setAttribute(`disabled`, true);
   }
+  window.map.removePins();
+  window.card.removeCard();
+  window.form.form.reset();
+  window.map.mainPin.style = `left: ` + window.map.defaultMainPinX + `px;` + `top: ` + window.map.defaultMainPinY + `px;`;
+  window.form.address.value = window.map.mainPinX + `, ` + (window.map.mainPinY + window.map.mainPinOffset);
+  window.map.mainPinEvent();
 };
 disablePage();
 
@@ -24,9 +30,10 @@ const activatePage = function () {
   for (let i = 0; i < window.form.fieldset.length; i++) {
     window.form.fieldset[i].removeAttribute(`disabled`);
   }
-  window.map.pinsOnMap();
-  window.pin.clickPin(window.data.offersList);
+
+  window.load(window.backend.method.get, window.backend.url.download, window.map.pinsOnMap, window.utils.error);
 };
 window.main = {
   activate: activatePage,
+  disable: disablePage
 };
