@@ -32,6 +32,12 @@
     let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     for (let i = 0; i < pins.length; i++) {
       pins[i].addEventListener(`click`, function () {
+        for (let j = 0; j < pins.length; j++) {
+          if (pins[j].classList.contains(`map__pin--active`)) {
+            pins[j].classList.remove(`map__pin--active`);
+          }
+        }
+        pins[i].classList.add(`map__pin--active`);
         window.card.card(obj[i]);
       });
     }

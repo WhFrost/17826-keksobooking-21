@@ -31,7 +31,7 @@ const activatePage = function () {
     window.form.fieldset[i].removeAttribute(`disabled`);
   }
 
-  window.load(window.backend.method.get, window.backend.url.download, window.map.pinsOnMap, window.utils.error);
+  window.load(window.backend.method.get, window.backend.url.download, window.filters.success, window.utils.error);
 };
 window.main = {
   activate: activatePage,
