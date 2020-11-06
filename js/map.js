@@ -21,7 +21,7 @@
     .querySelector(`.map__pin`);
 
   const renderPins = function (obj) {
-    for (let i = 0; i < window.data.offerCount; i++) {
+    for (let i = 0; i < obj.length; i++) {
       let pin = PIN_TEMPLATE.cloneNode(true);
       MAP_PINS.appendChild(pin);
       pin.style.left = obj[i].location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
@@ -42,6 +42,7 @@
       });
     }
   };
+
   const removePinsOnMap = function () {
     let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     if (pins) {

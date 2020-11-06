@@ -2,24 +2,48 @@
 
 (function () {
   const OFFER_COUNT = 5;
-  // let pins = [];
+  let pins = [];
 
-  // const updateData = function () {
-  //   console.log(window.filters.newType);
-  //   // const newPins = pins.filter(function (pin) {
-  //   //   return pin.offer.type === window.filters.newType;
-  //   // });
-  //   window.map.pinsOnMap(pins);
-  // };
+  let valueTypeFilter = `flat`;
+  const getRank = function (offers) {
+    let rank = 0;
+    if (offers.onTypeChange === valueTypeFilter) {
+      rank += 5;
+    }
+    return rank;
+  };
+  const namesComparator = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
 
-  // const successHandler = function (data) {
-  //   pins = data;
-  //   window.filters.updateData();
-  // };
+  const updateData = function () {
+    window.map.pinsOnMap(pins.sort(function (left, right) {
+      let rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    }));
+  };
+  window.filters.typeHandler(function (type) {
+    valueTypeFilter = type;
+    updateData();
+  });
+
+  const successHandler = function (data) {
+    pins = data;
+    updateData();
+  };
 
   window.data = {
-    // update: updateData,
     offerCount: OFFER_COUNT,
-    // success: successHandler
+    update: updateData,
+    success: successHandler
   };
 })();

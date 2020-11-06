@@ -8,8 +8,15 @@
   // const GUESTS_FILTER = MAP_FILTERS.querySelector(`#housing-guests`);
   // const FEATURES_FILTER = MAP_FILTERS.querySelector(`#housing-features`);
 
-  let pins = [];
-  let newValueTypeFilter = `any`;
+  // let valueTypeFilter = `any`;
+  // let valuePriceFilter = `any`;
+  // let valueRoomsFilter = `any`;
+  // let valueGuestsFilter = `any`;
+  // let valueFeaturesFilter = [];
+
+  let filteredOffers = {
+    onTypeChange: function () {},
+  };
 
   const closeActiveCard = function () {
     const card = document.querySelector(`.popup`);
@@ -18,30 +25,18 @@
     }
   };
 
-  const updateData = function () {
-    window.map.removePins();
-    closeActiveCard();
-    const newPins = pins.filter(function (obj) {
-      return obj.offer.type === newValueTypeFilter;
-    });
-    // console.log(newPins);
-    const allPins = newPins.concat(pins);
-    // console.log(newValueTypeFilter);
-    window.map.pinsOnMap(newPins);
-  };
-  const successHandler = function (data) {
-    pins = data;
-    updateData();
-  };
-
   TYPE_FILTER.addEventListener(`change`, function () {
-    newValueTypeFilter = TYPE_FILTER.value;
-    updateData();
+    closeActiveCard();
+    let newType = TYPE_FILTER.value;
+    filteredOffers.onTypeChange(newType);
+    window.data.update();
   });
+  const setTypeHandler = function (cb) {
+    filteredOffers.onTypeChange = cb;
+  };
 
   window.filters = {
-    update: updateData,
-    success: successHandler,
-    newType: newValueTypeFilter
+    filtered: filteredOffers,
+    typeHandler: setTypeHandler
   };
 })();
