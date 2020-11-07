@@ -6,13 +6,14 @@
   const PRICE_FILTER = MAP_FILTERS.querySelector(`#housing-price`);
   const ROOMS_FILTER = MAP_FILTERS.querySelector(`#housing-rooms`);
   const GUESTS_FILTER = MAP_FILTERS.querySelector(`#housing-guests`);
-  // const FEATURES_FILTER = MAP_FILTERS.querySelector(`#housing-features`);
+  const FEATURES_FILTER = MAP_FILTERS.querySelector(`#housing-features`);
 
   let filteredOffers = {
     onTypeChange: () => {},
     onPriceChange: () => {},
     onRoomsChange: () => {},
-    onGuestsChange: () => {}
+    onGuestsChange: () => {},
+    onFeaturesChange: () => {}
   };
 
   const closeActiveCard = function () {
@@ -59,11 +60,24 @@
     filteredOffers.onGuestsChange = cb;
   };
 
+  FEATURES_FILTER.addEventListener(`change`, function () {
+    let newFeatures = [];
+    let checkbox = FEATURES_FILTER.querySelectorAll(`input:checked`);
+    for (let i = 0; i < checkbox.length; i++) {
+      newFeatures.push(checkbox[i].value);
+    }
+    filteredOffers.onFeaturesChange(newFeatures);
+  });
+  const setFeaturesHandler = function (cb) {
+    filteredOffers.onFeaturesChange = cb;
+  };
+
   window.filters = {
     filtered: filteredOffers,
     typeHandler: setTypeHandler,
     priceHandler: setPriceHandler,
     roomsHandler: setRoomsHandler,
-    guestsHandler: setGuestsHandler
+    guestsHandler: setGuestsHandler,
+    featuresHandler: setFeaturesHandler
   };
 })();

@@ -15,8 +15,8 @@
   let defaultValuePriceFilter = `any`;
   let defaultValueRoomsFilter = `any`;
   let defaultValueGuestsFilter = `any`;
+  let defaultValueFeaturesFilter = [];
 
-  // let defaultValueFeaturesFilter = [];
 
   const getPriceRatio = function (offers) {
     switch (defaultValuePriceFilter) {
@@ -46,12 +46,15 @@
     if (offers.offer.guests === defaultValueGuestsFilter) {
       rank += 2;
     }
+    if (offers.offer.features === defaultValueFeaturesFilter) {
+      rank += 1;
+    }
     return rank;
   };
-  const namesComparator = function (left, right) {
-    if (left > right) {
+  const arrsLengthComparator = function (left, right) {
+    if (left.length > right.length) {
       return 1;
-    } else if (left < right) {
+    } else if (left.length < right.length) {
       return -1;
     } else {
       return 0;
@@ -63,7 +66,7 @@
     window.map.pinsOnMap(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
-        rankDiff = namesComparator(left.name, right.name);
+        rankDiff = arrsLengthComparator(left.offer.features, right.offer.features);
       }
       // console.log(rankDiff);
       return rankDiff;
@@ -84,6 +87,16 @@
   });
   window.filters.guestsHandler(function (guests) {
     defaultValueGuestsFilter = guests;
+    updateData();
+  });
+  window.filters.guestsHandler(function (guests) {
+    defaultValueGuestsFilter = guests;
+    updateData();
+  });
+  window.filters.featuresHandler(function (newFeatures) {
+    // console.log(newFeatures);
+    defaultValueFeaturesFilter = newFeatures;
+    // console.log(defaultValueFeaturesFilter);
     updateData();
   });
 
