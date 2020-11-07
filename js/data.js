@@ -2,13 +2,49 @@
 
 (function () {
   const OFFER_COUNT = 5;
+  const ANY = `any`;
+  const PRICE_LOW = `low`;
+  const PRICE_MIDDLE = `middle`;
+  const PRICE_HIGH = `high`;
+  const MIN_PRICE = 10000;
+  const MAX_PRICE = 50000;
+
   let pins = [];
 
-  let valueTypeFilter = `flat`;
+  let defaultValueTypeFilter = `any`;
+  let defaultValuePriceFilter = `any`;
+  let defaultValueRoomsFilter = `any`;
+  let defaultValueGuestsFilter = `any`;
+
+  // let defaultValueFeaturesFilter = [];
+
+  const getPriceRatio = function (offers) {
+    switch (defaultValuePriceFilter) {
+      case ANY:
+        return offers.offer.price > 0;
+      case PRICE_MIDDLE:
+        return offers.offer.price >= MIN_PRICE && offers.offer.price < MAX_PRICE;
+      case PRICE_LOW:
+        return offers.offer.price < MIN_PRICE;
+      case PRICE_HIGH:
+        return offers.offer.price >= MAX_PRICE;
+    }
+    return true;
+  };
+
   const getRank = function (offers) {
     let rank = 0;
-    if (offers.onTypeChange === valueTypeFilter) {
+    if (offers.offer.type === defaultValueTypeFilter) {
       rank += 5;
+    }
+    if (getPriceRatio(offers)) {
+      rank += 4;
+    }
+    if (offers.offer.rooms === defaultValueRoomsFilter) {
+      rank += 3;
+    }
+    if (offers.offer.guests === defaultValueGuestsFilter) {
+      rank += 2;
     }
     return rank;
   };
@@ -23,16 +59,31 @@
   };
 
   const updateData = function () {
+    window.map.removePins();
     window.map.pinsOnMap(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
         rankDiff = namesComparator(left.name, right.name);
       }
+      // console.log(rankDiff);
       return rankDiff;
     }));
   };
   window.filters.typeHandler(function (type) {
-    valueTypeFilter = type;
+    defaultValueTypeFilter = type;
+    updateData();
+  });
+
+  window.filters.priceHandler(function (price) {
+    defaultValuePriceFilter = price;
+    updateData();
+  });
+  window.filters.roomsHandler(function (rooms) {
+    defaultValueRoomsFilter = rooms;
+    updateData();
+  });
+  window.filters.guestsHandler(function (guests) {
+    defaultValueGuestsFilter = guests;
     updateData();
   });
 
@@ -42,7 +93,7 @@
   };
 
   window.data = {
-    offerCount: OFFER_COUNT,
+    offersCount: OFFER_COUNT,
     update: updateData,
     success: successHandler
   };
