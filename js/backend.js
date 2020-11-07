@@ -10,10 +10,10 @@
     upload: `https://21.javascript.pages.academy/keksobooking`
   };
   const TIMEOUT = 1000;
-  const statusCode = {
+  const StatusCode = {
     OK: 200,
-    badRequest: 400,
-    notFound: 404
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404
   };
   window.load = function (method, url, onSuccess, onError, data) {
     const xhr = new XMLHttpRequest();
@@ -23,13 +23,13 @@
     xhr.addEventListener(`load`, function () {
       let error;
       switch (xhr.status) {
-        case statusCode.OK:
+        case StatusCode.OK:
           onSuccess(xhr.response);
           break;
-        case statusCode.badRequest:
+        case StatusCode.BAD_REQUEST:
           error = `Неверный запрос`;
           break;
-        case statusCode.notFound:
+        case StatusCode.NOT_FOUND:
           error = `Ничего не найдено`;
           break;
 
