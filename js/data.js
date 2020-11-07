@@ -9,6 +9,13 @@
   const MIN_PRICE = 10000;
   const MAX_PRICE = 50000;
 
+  const closeActiveCard = function () {
+    const card = document.querySelector(`.popup`);
+    if (card) {
+      card.remove();
+    }
+  };
+
   let pins = [];
 
   let defaultValueTypeFilter = `any`;
@@ -63,6 +70,7 @@
 
   const updateData = function () {
     window.map.removePins();
+    closeActiveCard();
     window.map.pinsOnMap(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
@@ -94,9 +102,7 @@
     updateData();
   });
   window.filters.featuresHandler(function (newFeatures) {
-    // console.log(newFeatures);
     defaultValueFeaturesFilter = newFeatures;
-    // console.log(defaultValueFeaturesFilter);
     updateData();
   });
 
