@@ -11,15 +11,19 @@
       return;
     }
     let card = CARD_TEMPLATE.cloneNode(true);
-    window.map.map.insertBefore(card, FILTERS_CONTAINER);
+    window.map.block.insertBefore(card, FILTERS_CONTAINER);
     const removeCard = function () {
+      let pins = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+      for (let i = 0; i < pins.length; i++) {
+        pins[i].classList.remove(`map__pin--active`);
+      }
       card.remove();
-      document.removeEventListener(`keydown`, toCloseCardEsc);
+      document.removeEventListener(`keydown`, onCardPressEsc);
     };
-    const toCloseCardClick = function () {
+    const onCardCloseClick = function () {
       removeCard();
     };
-    const toCloseCardEsc = function (evt) {
+    const onCardPressEsc = function (evt) {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         removeCard();
@@ -27,8 +31,8 @@
     };
     const toCloseCard = function () {
       let closeCard = card.querySelector(`.popup__close`);
-      closeCard.addEventListener(`click`, toCloseCardClick);
-      document.addEventListener(`keydown`, toCloseCardEsc);
+      closeCard.addEventListener(`click`, onCardCloseClick);
+      document.addEventListener(`keydown`, onCardPressEsc);
     };
     toCloseCard();
   };
@@ -159,7 +163,7 @@
 
   window.card = {
     filtersContainer: FILTERS_CONTAINER,
-    card: renderCard,
-    removeCard: removeCardOnMap,
+    get: renderCard,
+    remove: removeCardOnMap,
   };
 })();

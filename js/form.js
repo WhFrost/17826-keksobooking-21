@@ -48,18 +48,20 @@
     FORM_FIELD_PRICE.setAttribute(`min`, TYPE_PRICE[FORM_FIELD_TYPE.value]);
   };
 
+  const removeSelection = function (items) {
+    items.forEach(function (element) {
+      element.removeAttribute(`selected`);
+    });
+  };
+
   const validateTimeIn = function () {
     let timeOutOptions = FORM_FIELD_TIME_OUT.querySelectorAll(`option`);
-    for (let i = 0; i < timeOutOptions.length; i++) {
-      timeOutOptions[i].removeAttribute(`selected`);
-    }
+    removeSelection(timeOutOptions);
     timeOutOptions[FORM_FIELD_TIME_IN.selectedIndex].setAttribute(`selected`, true);
   };
   const validateTimeOut = function () {
     let timeInOptions = FORM_FIELD_TIME_IN.querySelectorAll(`option`);
-    for (let i = 0; i < timeInOptions.length; i++) {
-      timeInOptions[i].removeAttribute(`selected`);
-    }
+    removeSelection(timeInOptions);
     timeInOptions[FORM_FIELD_TIME_OUT.selectedIndex].setAttribute(`selected`, true);
   };
 
@@ -82,20 +84,21 @@
     .querySelector(`.success`);
     let onSuccess = onSuccessTemplate.cloneNode(true);
     MAIN.appendChild(onSuccess);
-    const removeSuccess = function () {
+    const onSuccessClick = function () {
       onSuccess.remove();
-      document.removeEventListener(`keydown`, removeSuccessEsc);
+      window.preview.reset();
+      document.removeEventListener(`keydown`, onSuccessPressEsc);
     };
 
-    const removeSuccessEsc = function (evt) {
+    const onSuccessPressEsc = function (evt) {
       if (evt.key === `Escape`) {
         evt.preventDefault();
-        removeSuccess();
+        onSuccessClick();
       }
     };
     const toCloseSuccsess = function () {
-      onSuccess.addEventListener(`click`, removeSuccess);
-      document.addEventListener(`keydown`, removeSuccessEsc);
+      onSuccess.addEventListener(`click`, onSuccessClick);
+      document.addEventListener(`keydown`, onSuccessPressEsc);
     };
     toCloseSuccsess();
     window.main.disable();
@@ -106,34 +109,35 @@
     .querySelector(`.error`);
     let onError = onErrorTemplate.cloneNode(true);
     MAIN.appendChild(onError);
-    const removeError = function () {
+    const onErrorClick = function () {
       onError.remove();
-      document.removeEventListener(`keydown`, removeErrorEsc);
+      window.preview.reset();
+      document.removeEventListener(`keydown`, onErrorPressEsc);
     };
-    const removeErrorEsc = function (evt) {
+    const onErrorPressEsc = function (evt) {
       if (evt.key === `Escape`) {
         evt.preventDefault();
-        removeError();
+        onErrorClick();
       }
     };
     let onErrorButton = onError.querySelector(`.error__button`);
     const toCloseError = function () {
-      onErrorButton.addEventListener(`click`, removeError);
-      onError.addEventListener(`click`, removeError);
-      document.addEventListener(`keydown`, removeErrorEsc);
+      onErrorButton.addEventListener(`click`, onErrorClick);
+      onError.addEventListener(`click`, onErrorClick);
+      document.addEventListener(`keydown`, onErrorPressEsc);
     };
     toCloseError();
   };
 
-  const resetForm = function (evt) {
+  const clickOnReset = function (evt) {
     evt.preventDefault();
     window.preview.reset();
     window.main.disable();
   };
 
-  const uploadForm = function (evt) {
+  const clickOnSubmit = function (evt) {
     evt.preventDefault();
-    window.load(window.backend.method.post, window.backend.url.upload, renderSuccess, renderError, new FormData(FORM));
+    window.load(window.backend.method.POST, window.backend.url.UPLOAD, renderSuccess, renderError, new FormData(FORM));
   };
 
   const validatesForm = function () {
@@ -158,14 +162,14 @@
     FORM_FIELD_ROOMS.addEventListener(`change`, function () {
       validatesRoomAndGuest();
     });
-    FORM.addEventListener(`submit`, uploadForm);
-    FORM_RESET.addEventListener(`click`, resetForm);
+    FORM.addEventListener(`submit`, clickOnSubmit);
+    FORM_RESET.addEventListener(`click`, clickOnReset);
   };
   window.form = {
-    form: FORM,
+    block: FORM,
     fieldset: FORM_FIELDSET,
     address: FORM_FIELD_ADDRESS,
-    validateForm: validatesForm,
+    validate: validatesForm,
     validateRoom: validatesRoomAndGuest,
     validatePrice: validatePriceOfType,
     onSuccess: renderSuccess,

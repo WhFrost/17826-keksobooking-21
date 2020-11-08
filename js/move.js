@@ -2,9 +2,9 @@
 (function () {
   window.map.mainPin.addEventListener(`mousedown`, function (evt) {
     let minXPosition = 0 - (window.map.mainPinWidth / 2);
-    let maxXPosition = window.map.mapWidth - (window.map.mainPinWidth / 2);
-    let minYPosition = window.map.mapHeightMin - window.map.mainPinHeight - window.map.mainPinOffset;
-    let maxYPosition = window.map.mapHeightMax;
+    let maxXPosition = window.map.blockWidth - (window.map.mainPinWidth / 2);
+    let minYPosition = window.map.blockHeightMin - window.map.mainPinHeight - window.map.mainPinOffset;
+    let maxYPosition = window.map.blockHeightMax;
     if (evt.which === 1) {
       evt.preventDefault();
       let startCoords = {

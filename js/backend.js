@@ -1,13 +1,13 @@
 "use strict";
 
 (function () {
-  const METHOD = {
-    get: `GET`,
-    post: `POST`
+  const Method = {
+    GET: `GET`,
+    POST: `POST`
   };
-  const URL = {
-    download: `https://21.javascript.pages.academy/keksobooking/data`,
-    upload: `https://21.javascript.pages.academy/keksobooking`
+  const Url = {
+    DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`,
+    UPLOAD: `https://21.javascript.pages.academy/keksobooking`
   };
   const TIMEOUT = 1000;
   const StatusCode = {
@@ -56,7 +56,7 @@
     xhr.send(data);
   };
   window.backend = {
-    method: METHOD,
-    url: URL
+    method: Method,
+    url: Url
   };
 })();

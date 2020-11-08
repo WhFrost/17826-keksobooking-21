@@ -10,6 +10,6 @@
   };
 
   window.utils = {
-    error: createErrorMessage,
+    createError: createErrorMessage,
   };
 })();

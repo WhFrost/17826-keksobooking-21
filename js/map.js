@@ -38,7 +38,7 @@
           }
         }
         pins[i].classList.add(`map__pin--active`);
-        window.card.card(obj[i]);
+        window.card.get(obj[i]);
       });
     }
   };
@@ -54,7 +54,7 @@
   const onMainPinClick = function (evt) {
     if (evt.which === 1 || evt.key === `Enter`) {
       window.main.activate();
-      window.form.validateForm();
+      window.form.validate();
       window.form.validatePrice();
       window.form.validateRoom();
       MAP_MAIN_PIN.removeEventListener(`mousedown`, onMainPinClick);
@@ -68,10 +68,10 @@
   addEventMainPin();
 
   window.map = {
-    map: MAP,
-    mapWidth: MAP_WIDTH,
-    mapHeightMin: MIN_LOCATION_Y,
-    mapHeightMax: MAX_LOCATION_Y,
+    block: MAP,
+    blockWidth: MAP_WIDTH,
+    blockHeightMin: MIN_LOCATION_Y,
+    blockHeightMax: MAX_LOCATION_Y,
     filters: MAP_FILTERS,
     mainPin: MAP_MAIN_PIN,
     defaultMainPinX: MAIN_PIN_DEFAULT_POSITION_X,
@@ -81,7 +81,7 @@
     mainPinWidth: MAIN_PIN_WIDTH,
     mainPinHeight: MAIN_PIN_HEIGHT,
     mainPinOffset: MAIN_PIN_OFFSET_Y,
-    pinsOnMap: renderPins,
+    getPins: renderPins,
     removePins: removePinsOnMap,
     mainPinEvent: addEventMainPin
   };

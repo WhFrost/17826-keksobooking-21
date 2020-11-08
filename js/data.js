@@ -60,8 +60,8 @@
     return rank;
   };
 
-  const getSimilarityFeatures = function (arr1, arr2) {
-    similarityFeatures = arr1.filter((el) => arr2.includes(el));
+  const getSimilarityFeatures = function (defaultFeatures, newFeatures) {
+    similarityFeatures = defaultFeatures.filter((el) => newFeatures.includes(el));
     return similarityFeatures;
   };
 
@@ -78,7 +78,7 @@
   const updateData = function () {
     window.map.removePins();
     closeActiveCard();
-    window.debounce(window.map.pinsOnMap(pins.sort(function (left, right) {
+    window.debounce(window.map.getPins(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
         rankDiff = arrsLengthComparator(left.offer.features, right.offer.features);

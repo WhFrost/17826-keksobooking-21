@@ -5,14 +5,16 @@
   const FILE_WIDTH = 40;
   const FILE_HEIGHT = 40;
 
-  const avatarFileChooser = window.form.form.querySelector(`.ad-form-header__input`);
-  const avatarPreview = window.form.form.querySelector(`.ad-form-header__preview img`);
-  const offerPhotoFileChooser = window.form.form.querySelector(`.ad-form__input`);
-  const offerPhotoWrapper = window.form.form.querySelector(`.ad-form__photo`);
+  const avatarFileChooser = window.form.block.querySelector(`.ad-form-header__input`);
+  const avatarPreview = window.form.block.querySelector(`.ad-form-header__preview img`);
+  const offerPhotoFileChooser = window.form.block.querySelector(`.ad-form__input`);
+  const offerPhotoWrapper = window.form.block.querySelector(`.ad-form__photo`);
 
   const resetFiles = function () {
     avatarPreview.src = `img/muffin-grey.svg`;
-    offerPhotoWrapper.innerHtml = ``;
+    while (offerPhotoWrapper.firstChild) {
+      offerPhotoWrapper.firstChild.remove();
+    }
   };
 
   const uploadFile = function (evt, target) {
