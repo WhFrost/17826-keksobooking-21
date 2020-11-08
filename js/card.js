@@ -158,6 +158,7 @@
   };
 
   window.card = {
+    filtersContainer: FILTERS_CONTAINER,
     card: renderCard,
     removeCard: removeCardOnMap,
   };
