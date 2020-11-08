@@ -17,6 +17,7 @@
   };
 
   let pins = [];
+  let similarityFeatures = [];
 
   let defaultValueTypeFilter = `any`;
   let defaultValuePriceFilter = `any`;
@@ -41,23 +42,29 @@
 
   const getRank = function (offers) {
     let rank = 0;
-    if (offers.offer.type === defaultValueTypeFilter) {
-      rank += 5;
+    if (offers.offer.type === defaultValueTypeFilter || defaultValueTypeFilter === `any`) {
+      rank += 1;
     }
     if (getPriceRatio(offers)) {
-      rank += 4;
-    }
-    if (offers.offer.rooms === defaultValueRoomsFilter) {
-      rank += 3;
-    }
-    if (offers.offer.guests === defaultValueGuestsFilter) {
-      rank += 2;
-    }
-    if (offers.offer.features === defaultValueFeaturesFilter) {
       rank += 1;
+    }
+    if (offers.offer.rooms === Number(defaultValueRoomsFilter) || defaultValueRoomsFilter === `any`) {
+      rank += 1;
+    }
+    if (offers.offer.guests === Number(defaultValueGuestsFilter) || defaultValueGuestsFilter === `any`) {
+      rank += 1;
+    }
+    if (getSimilarityFeatures(offers.offer.features, defaultValueFeaturesFilter).length !== 0 || defaultValueFeaturesFilter === `any`) {
+      rank += similarityFeatures.length;
     }
     return rank;
   };
+
+  const getSimilarityFeatures = function (arr1, arr2) {
+    similarityFeatures = arr1.filter((el) => arr2.includes(el));
+    return similarityFeatures;
+  };
+
   const arrsLengthComparator = function (left, right) {
     if (left.length > right.length) {
       return 1;
@@ -71,14 +78,15 @@
   const updateData = function () {
     window.map.removePins();
     closeActiveCard();
-    window.map.pinsOnMap(pins.sort(function (left, right) {
+    window.debounce(window.map.pinsOnMap(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
         rankDiff = arrsLengthComparator(left.offer.features, right.offer.features);
       }
-      // console.log(rankDiff);
+      console.log(rankDiff);
       return rankDiff;
-    }));
+    }))
+    );
   };
   window.filters.typeHandler(function (type) {
     defaultValueTypeFilter = type;
