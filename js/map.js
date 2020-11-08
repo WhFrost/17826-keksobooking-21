@@ -43,32 +43,6 @@
     }
   };
 
-  // const renderPin = function (obj) {
-  //   let pin = PIN_TEMPLATE.cloneNode(true);
-  //   MAP_PINS.appendChild(pin);
-  //   pin.style.left = obj.location.x + PIN_TEMPLATE.offsetWidth / 2 + `px`;
-  //   pin.style.top = obj.location.y + PIN_TEMPLATE.offsetHeight + `px`;
-  //   pin.querySelector(`img`).src = obj.author.avatar;
-  //   pin.querySelector(`img`).alt = obj.offer.title;
-  //   let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-  //   for (let i = 0; i < obj.length; i++) {
-  //     pins[i].addEventListener(`click`, function () {
-  //       for (let j = 0; j < obj.length; j++) {
-  //         if (pins[j].classList.contains(`map__pin--active`)) {
-  //           pins[j].classList.remove(`map__pin--active`);
-  //         }
-  //       }
-  //       pins[i].classList.add(`map__pin--active`);
-  //       window.card.card(obj[i]);
-  //     });
-  //   }
-  // };
-  // const renderPins = function (obj) {
-  //   for (let i = 0; i < window.data.offersCount; i++) {
-  //     renderPin(obj[i]);
-  //   }
-  // };
-
   const removePinsOnMap = function () {
     let pins = MAP_PINS.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     if (pins) {

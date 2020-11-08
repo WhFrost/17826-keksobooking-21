@@ -127,6 +127,7 @@
 
   const resetForm = function (evt) {
     evt.preventDefault();
+    window.preview.reset();
     window.main.disable();
   };
 
