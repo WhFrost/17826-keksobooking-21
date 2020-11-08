@@ -83,7 +83,6 @@
       if (rankDiff === 0) {
         rankDiff = arrsLengthComparator(left.offer.features, right.offer.features);
       }
-      console.log(rankDiff);
       return rankDiff;
     }))
     );
