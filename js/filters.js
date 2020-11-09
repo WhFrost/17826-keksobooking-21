@@ -16,43 +16,43 @@
     onFeaturesChange: () => {}
   };
 
-  TYPE_FILTER.addEventListener(`change`, function () {
+  TYPE_FILTER.addEventListener(`change`, window.debounce(function () {
     let newType = TYPE_FILTER.value;
     filteredOffers.onTypeChange(newType);
-  });
+  }));
   const setTypeHandler = function (cb) {
     filteredOffers.onTypeChange = cb;
   };
-  PRICE_FILTER.addEventListener(`change`, function () {
+  PRICE_FILTER.addEventListener(`change`, window.debounce(function () {
     let newPrice = PRICE_FILTER.value;
     filteredOffers.onPriceChange(newPrice);
-  });
+  }));
   const setPriceHandler = function (cb) {
     filteredOffers.onPriceChange = cb;
   };
-  ROOMS_FILTER.addEventListener(`change`, function () {
+  ROOMS_FILTER.addEventListener(`change`, window.debounce(function () {
     let newCountRooms = ROOMS_FILTER.value;
     filteredOffers.onRoomsChange(newCountRooms);
-  });
+  }));
   const setRoomsHandler = function (cb) {
     filteredOffers.onRoomsChange = cb;
   };
-  GUESTS_FILTER.addEventListener(`change`, function () {
+  GUESTS_FILTER.addEventListener(`change`, window.debounce(function () {
     let newCountGuests = GUESTS_FILTER.value;
     filteredOffers.onGuestsChange(newCountGuests);
-  });
+  }));
   const setGuestsHandler = function (cb) {
     filteredOffers.onGuestsChange = cb;
   };
 
-  FEATURES_FILTER.addEventListener(`change`, function () {
+  FEATURES_FILTER.addEventListener(`change`, window.debounce(function () {
     let newFeatures = [];
     let checkbox = FEATURES_FILTER.querySelectorAll(`input:checked`);
     for (let i = 0; i < checkbox.length; i++) {
       newFeatures.push(checkbox[i].value);
     }
     filteredOffers.onFeaturesChange(newFeatures);
-  });
+  }));
   const setFeaturesHandler = function (cb) {
     filteredOffers.onFeaturesChange = cb;
   };

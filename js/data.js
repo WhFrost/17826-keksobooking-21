@@ -78,14 +78,13 @@
   const updateData = function () {
     window.map.removePins();
     closeActiveCard();
-    window.debounce(window.map.getPins(pins.sort(function (left, right) {
+    window.map.getPins(pins.sort(function (left, right) {
       let rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
         rankDiff = arrsLengthComparator(left.offer.features, right.offer.features);
       }
       return rankDiff;
-    }))
-    );
+    }));
   };
 
   window.filters.typeHandler(function (type) {
