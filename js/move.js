@@ -3,8 +3,8 @@
   window.map.mainPin.addEventListener(`mousedown`, function (evt) {
     let minXPosition = 0 - (window.map.mainPinWidth / 2);
     let maxXPosition = window.map.blockWidth - (window.map.mainPinWidth / 2);
-    let minYPosition = window.map.blockHeightMin - window.map.mainPinHeight - window.map.mainPinOffset;
-    let maxYPosition = window.map.blockHeightMax;
+    let minYPosition = window.map.blockHeightMin - window.map.mainPinHeight;
+    let maxYPosition = window.map.blockHeightMax - window.map.mainPinHeight;
     if (evt.which === 1) {
       evt.preventDefault();
       let startCoords = {
@@ -39,7 +39,7 @@
         }
         window.map.mainPin.style.top = newCoords.y + `px`;
         window.map.mainPin.style.left = newCoords.x + `px`;
-        window.form.address.value = Math.floor(newCoords.x + (window.map.mainPinWidth / 2)) + `, ` + newCoords.y;
+        window.form.address.value = Math.floor(newCoords.x + (window.map.mainPinWidth / 2)) + `, ` + (newCoords.y + window.map.mainPinHeight);
       };
       let onMouseUp = function (upEvt) {
         upEvt.preventDefault();

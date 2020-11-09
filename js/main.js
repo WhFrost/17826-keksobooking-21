@@ -37,7 +37,7 @@
     activateFieldset(window.map.filters);
     activateFieldset(window.form.fieldset);
 
-    window.load(window.backend.method.GET, window.backend.url.DOWNLOAD, window.data.success, window.utils.createError);
+    window.backend.load(window.backend.method.GET, window.backend.url.DOWNLOAD, window.data.success, window.utils.createError);
   };
   window.main = {
     activate: activatePage,

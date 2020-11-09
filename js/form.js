@@ -137,7 +137,7 @@
 
   const clickOnSubmit = function (evt) {
     evt.preventDefault();
-    window.load(window.backend.method.POST, window.backend.url.UPLOAD, renderSuccess, renderError, new FormData(FORM));
+    window.backend.load(window.backend.method.POST, window.backend.url.UPLOAD, renderSuccess, renderError, new FormData(FORM));
   };
 
   const validatesForm = function () {

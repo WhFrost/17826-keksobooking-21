@@ -1,6 +1,7 @@
 "use strict";
 
 (function () {
+  const TIMEOUT = 1000;
   const Method = {
     GET: `GET`,
     POST: `POST`
@@ -9,13 +10,12 @@
     DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`,
     UPLOAD: `https://21.javascript.pages.academy/keksobooking`
   };
-  const TIMEOUT = 1000;
   const StatusCode = {
     OK: 200,
     BAD_REQUEST: 400,
     NOT_FOUND: 404
   };
-  window.load = function (method, url, onSuccess, onError, data) {
+  const loadData = function (method, url, onSuccess, onError, data) {
     const xhr = new XMLHttpRequest();
 
     xhr.responseType = `json`;
@@ -56,6 +56,7 @@
     xhr.send(data);
   };
   window.backend = {
+    load: loadData,
     method: Method,
     url: Url
   };

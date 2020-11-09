@@ -87,6 +87,7 @@
     }))
     );
   };
+
   window.filters.typeHandler(function (type) {
     defaultValueTypeFilter = type;
     updateData();
