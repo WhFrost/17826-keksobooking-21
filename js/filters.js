@@ -1,68 +1,66 @@
 "use strict";
 
-(function () {
-  const MAP_FILTERS = window.card.filtersContainer.querySelector(`.map__filters`);
-  const TYPE_FILTER = MAP_FILTERS.querySelector(`#housing-type`);
-  const PRICE_FILTER = MAP_FILTERS.querySelector(`#housing-price`);
-  const ROOMS_FILTER = MAP_FILTERS.querySelector(`#housing-rooms`);
-  const GUESTS_FILTER = MAP_FILTERS.querySelector(`#housing-guests`);
-  const FEATURES_FILTER = MAP_FILTERS.querySelector(`#housing-features`);
+const mapFilters = window.card.filtersBlock.querySelector(`.map__filters`);
+const typeFilter = mapFilters.querySelector(`#housing-type`);
+const priceFilter = mapFilters.querySelector(`#housing-price`);
+const roomsFilter = mapFilters.querySelector(`#housing-rooms`);
+const guestsFilter = mapFilters.querySelector(`#housing-guests`);
+const featuresFilter = mapFilters.querySelector(`#housing-features`);
 
-  let filteredOffers = {
-    onTypeChange: () => {},
-    onPriceChange: () => {},
-    onRoomsChange: () => {},
-    onGuestsChange: () => {},
-    onFeaturesChange: () => {}
-  };
+let filteredOffers = {
+  onTypeChange: () => {},
+  onPriceChange: () => {},
+  onRoomsChange: () => {},
+  onGuestsChange: () => {},
+  onFeaturesChange: () => {}
+};
 
-  TYPE_FILTER.addEventListener(`change`, window.debounce(function () {
-    let newType = TYPE_FILTER.value;
-    filteredOffers.onTypeChange(newType);
-  }));
-  const setTypeHandler = function (cb) {
-    filteredOffers.onTypeChange = cb;
-  };
-  PRICE_FILTER.addEventListener(`change`, window.debounce(function () {
-    let newPrice = PRICE_FILTER.value;
-    filteredOffers.onPriceChange(newPrice);
-  }));
-  const setPriceHandler = function (cb) {
-    filteredOffers.onPriceChange = cb;
-  };
-  ROOMS_FILTER.addEventListener(`change`, window.debounce(function () {
-    let newCountRooms = ROOMS_FILTER.value;
-    filteredOffers.onRoomsChange(newCountRooms);
-  }));
-  const setRoomsHandler = function (cb) {
-    filteredOffers.onRoomsChange = cb;
-  };
-  GUESTS_FILTER.addEventListener(`change`, window.debounce(function () {
-    let newCountGuests = GUESTS_FILTER.value;
-    filteredOffers.onGuestsChange(newCountGuests);
-  }));
-  const setGuestsHandler = function (cb) {
-    filteredOffers.onGuestsChange = cb;
-  };
+typeFilter.addEventListener(`change`, window.debounce(function () {
+  let newType = typeFilter.value;
+  filteredOffers.onTypeChange(newType);
+}));
+const setTypeHandler = function (cb) {
+  filteredOffers.onTypeChange = cb;
+};
+priceFilter.addEventListener(`change`, window.debounce(function () {
+  let newPrice = priceFilter.value;
+  filteredOffers.onPriceChange(newPrice);
+}));
+const setPriceHandler = function (cb) {
+  filteredOffers.onPriceChange = cb;
+};
+roomsFilter.addEventListener(`change`, window.debounce(function () {
+  let newCountRooms = roomsFilter.value;
+  filteredOffers.onRoomsChange(newCountRooms);
+}));
+const setRoomsHandler = function (cb) {
+  filteredOffers.onRoomsChange = cb;
+};
+guestsFilter.addEventListener(`change`, window.debounce(function () {
+  let newCountGuests = guestsFilter.value;
+  filteredOffers.onGuestsChange(newCountGuests);
+}));
+const setGuestsHandler = function (cb) {
+  filteredOffers.onGuestsChange = cb;
+};
 
-  FEATURES_FILTER.addEventListener(`change`, window.debounce(function () {
-    let newFeatures = [];
-    let checkbox = FEATURES_FILTER.querySelectorAll(`input:checked`);
-    for (let i = 0; i < checkbox.length; i++) {
-      newFeatures.push(checkbox[i].value);
-    }
-    filteredOffers.onFeaturesChange(newFeatures);
-  }));
-  const setFeaturesHandler = function (cb) {
-    filteredOffers.onFeaturesChange = cb;
-  };
+featuresFilter.addEventListener(`change`, window.debounce(function () {
+  let newFeatures = [];
+  let checkbox = featuresFilter.querySelectorAll(`input:checked`);
+  for (let i = 0; i < checkbox.length; i++) {
+    newFeatures.push(checkbox[i].value);
+  }
+  filteredOffers.onFeaturesChange(newFeatures);
+}));
+const setFeaturesHandler = function (cb) {
+  filteredOffers.onFeaturesChange = cb;
+};
 
-  window.filters = {
-    filtered: filteredOffers,
-    typeHandler: setTypeHandler,
-    priceHandler: setPriceHandler,
-    roomsHandler: setRoomsHandler,
-    guestsHandler: setGuestsHandler,
-    featuresHandler: setFeaturesHandler
-  };
-})();
+window.filters = {
+  filtered: filteredOffers,
+  typeHandler: setTypeHandler,
+  priceHandler: setPriceHandler,
+  roomsHandler: setRoomsHandler,
+  guestsHandler: setGuestsHandler,
+  featuresHandler: setFeaturesHandler
+};
