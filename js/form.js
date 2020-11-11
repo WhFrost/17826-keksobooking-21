@@ -155,13 +155,13 @@ const renderError = function () {
   toCloseError();
 };
 
-const clickOnReset = function (evt) {
+const onResetClick = function (evt) {
   evt.preventDefault();
   window.preview.reset();
   window.main.disable();
 };
 
-const clickOnSubmit = function (evt) {
+const onSubmitClick = function (evt) {
   evt.preventDefault();
   window.backend.load(window.backend.method.POST, window.backend.url.UPLOAD, renderSuccess, renderError, new FormData(formBlock));
 };
@@ -188,8 +188,8 @@ const validatesForm = function () {
   formFieldRooms.addEventListener(`change`, function () {
     validatesRoomAndGuest();
   });
-  formBlock.addEventListener(`submit`, clickOnSubmit);
-  formReset.addEventListener(`click`, clickOnReset);
+  formBlock.addEventListener(`submit`, onSubmitClick);
+  formReset.addEventListener(`click`, onResetClick);
 };
 window.form = {
   block: formBlock,
